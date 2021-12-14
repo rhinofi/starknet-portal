@@ -1,24 +1,30 @@
 import React, {FunctionComponent} from "react";
 import styled from 'styled-components'
-import {Outlet, Link} from "react-router-dom";
+import {Outlet} from "react-router-dom";
+import TopNavigation from "./TopNavigation";
+import LeftNavigation from "./LeftNavigation";
 
 const Layout: FunctionComponent = () => {
     return (
         <main>
-            <Header>
-                <Link to="/">
-                    home
-                </Link>
-            </Header>
-            <Outlet />
+            <TopNavigation />
+            <BottomLayout>
+                <LeftNavigation />
+                <div>
+                    <Outlet />
+                </div>
+            </BottomLayout>
         </main>
     )
 }
 
 export default Layout
 
-const Header = styled.header`
-  background-color: #fff;
+const BottomLayout = styled.div`
+  display: flex;
+
+  & > div:last-child {
+    width: 100%;
+    background-color: #0A1017;
+  }
 `
-
-
