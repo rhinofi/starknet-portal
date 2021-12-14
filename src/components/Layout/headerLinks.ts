@@ -11,6 +11,6 @@ interface NavigationLink {
 
 export const mainLinks: NavigationLink[] = [
     { tab: 'Portfolio', path: '/portfolio', Icon: portfolioIcon },
-    { tab: 'Bridge funds', path: '/trade', Icon: sendIcon },
-    { tab: 'Explore Starknet', path: '/swap', Icon: moreIcon }
+    { tab: 'Bridge funds', path: '/bridge', Icon: sendIcon },
+    { tab: 'Explore Starknet', path: '/explore', Icon: moreIcon }
 ]
