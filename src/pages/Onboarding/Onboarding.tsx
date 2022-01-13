@@ -7,7 +7,7 @@ import CircleInfo from './CircleInfo'
 const Onboarding: FunctionComponent = () => (
   <Wrapper direction='column' alignItems='center'>
     <Title1>Welcome to the StarkNet Portal</Title1>
-    <Title2>Ethereum as it should be.</Title2>
+    <Title2 $negative>Ethereum as it should be.</Title2>
     <Text align='center'>
       This is your gateway to the entire StarkNet ecosystem.. Create your
       Starknet account, bridge assets to and from Starknet, manage your

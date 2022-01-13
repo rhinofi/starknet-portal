@@ -18,3 +18,15 @@ export const Button = styled.button`
     background: ${({ theme }) => theme.neutral900};
   }
 `
+
+export const TextButton = styled.button`
+  border: none;
+  outline: none;
+  cursor: pointer;
+  background: transparent;
+  color: ${({ theme }) => theme.defaultFontColor};
+  font-family: 'Lato', sans-serif;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 22px;
+`

@@ -4,6 +4,10 @@ interface TextProps {
     align?: string
 }
 
+interface TitleProps {
+  $negative?: boolean
+}
+
 export const Text = styled.div<TextProps>`
     font-size: 16px;
     line-height: 24px;
@@ -22,10 +26,10 @@ export const Title1 = styled.h1`
     margin-bottom: 24px;
 `
 
-export const Title2 = styled.h2`
+export const Title2 = styled.h2<TitleProps>`
     font-size: 32px;
     line-height: 40px;
-    color: ${({ theme }) => theme.negative600 };
+    color: ${({ theme, $negative }) => $negative ? theme.negative600 :  theme.defaultFontColor };
     font-family: ${({ theme }) => theme.mainFont };
     margin-bottom: 36px;
 `
