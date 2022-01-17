@@ -2,10 +2,10 @@ import React, {FunctionComponent} from 'react'
 import styled from 'styled-components'
 import {ReactComponent as Logo} from '../../assets/icons/logo.svg'
 import {Link} from 'react-router-dom'
-import {Button} from "../common/interactive/Button";
+import ConnectArgentWallet from "../ConnectArgentWallet/ConnectArgentWallet";
 
 const TopNavigation: FunctionComponent = () => {
-    return (
+  return (
         <TopHeaderWrapper>
             <TopHeaderBackground>
                 <TopHeaderContent>
@@ -16,9 +16,7 @@ const TopNavigation: FunctionComponent = () => {
                     </div>
                     <div>
                         <Separator />
-                        <Button>
-                            Connect wallet
-                        </Button>
+                        <ConnectArgentWallet />
                     </div>
                 </TopHeaderContent>
             </TopHeaderBackground>
