@@ -1,21 +1,28 @@
-import React, {FunctionComponent} from 'react'
-import styled from 'styled-components'
-import {getStarknet} from "@argent/get-starknet"
-import {Button, TextButton} from "../common/interactive/Button";
-import {useAppDispatch, useAppSelector} from "../../redux/hooks";
-import {selectAddress, setAddress} from '../../redux/slices/userSlice'
-import LabelCard from "../common/presentation/LabelCard";
-import CopyButton from "../common/interactive/CopyButton";
+import { getStarknet } from '@argent/get-starknet'
+import { FunctionComponent, useEffect } from 'react'
+import { useAppDispatch, useAppSelector } from '../../redux/hooks'
+import { selectAddressL2, setAddressL2 } from '../../redux/slices/userSlice'
+import { getExplorerLinkL2 } from '../../utils/explorer'
+import WalletInfo from '../common/interactive/WalletInfo'
 
 const ConnectArgentWallet: FunctionComponent = () => {
   const dispatch = useAppDispatch()
-  const address = useAppSelector(selectAddress)
+  const address = useAppSelector(selectAddressL2)
+
+  useEffect(() => {
+    initiateArgentX()
+    // eslint-disable-next-line
+  }, [])
 
   const initiateArgentX = async () => {
     // check if wallet extension is installed and initialized. Shows a modal prompting the user to download ArgentX otherwise.
-    const starknet = getStarknet({showModal: true})
-    const [userWalletContractAddress] = await starknet.enable() // may throws when no extension is detected
-    dispatch(setAddress(userWalletContractAddress))
+    const starknet = getStarknet({ showModal: true })
+    try {
+      const [userWalletContractAddress] = await starknet.enable() // may throws when no extension is detected
+      dispatch(setAddressL2(userWalletContractAddress))
+    } catch (e) {
+      console.error(e)
+    }
 
     // check if connection was successful
     if (starknet.isConnected) {
@@ -27,34 +34,19 @@ const ConnectArgentWallet: FunctionComponent = () => {
     }
   }
 
+  const disconnectWallet = () => {
+    dispatch(setAddressL2(''))
+  }
+
   return (
-    <div>
-      {
-        !address ? <Button onClick={initiateArgentX}>
-          Connect wallet
-        </Button>
-          : <LabelCard>
-            <ExplorerLink href={`https://voyager.online/contract/${address}`}>
-              {address.substr(0,7)}...{address.substr(-5)}
-            </ExplorerLink>
-            &nbsp;
-            <CopyButton text={address} />
-            <Spacing />
-            <TextButton>Disconnect</TextButton>
-          </LabelCard>
-      }
-    </div>
+    <WalletInfo
+      address={address}
+      icon='starknet'
+      explorerUrl={getExplorerLinkL2(address, 'contract')}
+      connectWallet={initiateArgentX}
+      disconnectWallet={disconnectWallet}
+    />
   )
 }
 
 export default ConnectArgentWallet
-
-const ExplorerLink = styled.a`
-  color: #fff;
-  margin-right: 12px;
-`
-
-const Spacing = styled.div`
-  display: inline-block;
-  width: 60px;
-`

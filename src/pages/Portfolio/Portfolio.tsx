@@ -1,9 +1,9 @@
-import {FunctionComponent, useState} from 'react'
-import {Title2, Title3} from '../../components/common/presentation/Text'
-import {Page} from "../../components/common/presentation/Page";
-import {Border} from "../../components/common/presentation/Border";
-import Spacing from "../../components/common/presentation/Spacing"
-import Table, {Column} from "../../components/common/presentation/Table/Table";
+import { FunctionComponent, useState } from 'react'
+import { Title2, Title3 } from '../../components/common/presentation/Text'
+import { Page } from '../../components/common/presentation/Page'
+import { Border } from '../../components/common/presentation/Border'
+import Spacing from '../../components/common/presentation/Spacing'
+import Table, { Column } from '../../components/common/presentation/Table/Table'
 
 const columns: Column[] = [
   {
@@ -42,7 +42,8 @@ const data = [
 ]
 
 const Portfolio: FunctionComponent = () => {
-  const [usdPortfolioValue, setUsdPortfolioValue] = useState(0)
+  const [usdPortfolioValue /*, setUsdPortfolioValue */] = useState(0)
+
   return (
     <Page>
       <Title2>Portfolio</Title2>

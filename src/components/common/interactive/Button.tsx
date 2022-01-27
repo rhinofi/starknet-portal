@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from 'styled-components'
 
 export const Button = styled.button`
   height: 36px;
@@ -25,8 +25,22 @@ export const TextButton = styled.button`
   cursor: pointer;
   background: transparent;
   color: ${({ theme }) => theme.defaultFontColor};
-  font-family: 'Lato', sans-serif;
+  font-family: ${({ theme }) => theme.secondaryFont};
   font-weight: normal;
-  font-size: 14px;
+  font-size: ${({ theme }) => theme.defaultFontSize};
   line-height: 22px;
+`
+
+export const LargeButton = styled.button`
+  margin: 40px auto 0px;
+  display: block;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  background: ${({ theme }) => theme.neutral700};
+  border-radius: 4px;
+  height: 48px;
+  color: ${({ theme }) => theme.defaultFontColor};
+  font-family: ${({ theme }) => theme.mainFont};
+  min-width: 170px;
 `

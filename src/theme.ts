@@ -17,7 +17,9 @@ export const commonColors = {
   primary300: '#A365FE',
   negative600: '#CC4551',
   secondary500: '#59D2A9',
-  grey100: '#1E1F25'
+  grey100: '#1E1F25',
+  gradient1: 'linear-gradient(180deg, #191F30 0%, #000000 100%)',
+  greyBorder: 'rgba(230, 231, 233, 0.1)'
 }
 
 const themes = {

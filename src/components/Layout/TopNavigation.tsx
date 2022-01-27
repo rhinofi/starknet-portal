@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import {ReactComponent as Logo} from '../../assets/icons/logo.svg'
 import {Link} from 'react-router-dom'
 import ConnectArgentWallet from "../ConnectArgentWallet/ConnectArgentWallet";
+import ConnectEthereumWallet from '../ConnectEthereumWallet/ConnectEthereumWallet';
 
 const TopNavigation: FunctionComponent = () => {
   return (
@@ -15,6 +16,7 @@ const TopNavigation: FunctionComponent = () => {
                         </Link>
                     </div>
                     <div>
+                        <ConnectEthereumWallet />
                         <Separator />
                         <ConnectArgentWallet />
                     </div>

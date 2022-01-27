@@ -6,6 +6,7 @@ import Onboarding from './Onboarding/Onboarding';
 import NoMatch from './NoMatch/NoMatch'
 import theme from '../theme'
 import Portfolio from "./Portfolio/Portfolio";
+import BridgeFunds from "./BridgeFunds/BridgeFunds";
 
 const Router: FunctionComponent = () => {
     return (
@@ -15,6 +16,7 @@ const Router: FunctionComponent = () => {
                     <Route path="/" element={<Layout />}>
                         <Route index element={<Onboarding />} />
                         <Route path="/portfolio" element={<Portfolio />} />
+                        <Route path="/bridge" element={<BridgeFunds />} />
                         <Route path="*" element={<NoMatch />} />
                     </Route>
                 </Routes>
