@@ -1,5 +1,4 @@
 import { number, uint256 } from 'starknet'
-import { Uint256 } from 'starknet/dist/utils/uint256'
 
 import { web3 } from '../web3'
 
