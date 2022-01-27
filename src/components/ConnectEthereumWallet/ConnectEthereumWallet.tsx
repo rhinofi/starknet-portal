@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from '../../redux/hooks'
 import { selectAddressL1, setAddressL1 } from '../../redux/slices/userSlice'
 import { getExplorerLinkL1 } from '../../utils/explorer'
 import WalletInfo from '../common/interactive/WalletInfo'
+import { web3 } from '../../web3'
 
 const ConnectEthereumWallet: FunctionComponent = () => {
   const dispatch = useAppDispatch()
@@ -13,14 +14,7 @@ const ConnectEthereumWallet: FunctionComponent = () => {
 
   useEffect(() => {
     const checkConnection = async () => {
-      let web3: any
-      if (window.ethereum) {
-        web3 = new Web3(window.ethereum)
-      } else if (window.web3) {
-        web3 = new Web3(window.web3)
-      }
-
-      web3.eth.getAccounts().then(async (addr: string) => {
+      web3.eth.getAccounts().then(async (addr: string[]) => {
         dispatch(setAddressL1(addr[0]))
       })
     }
@@ -30,7 +24,7 @@ const ConnectEthereumWallet: FunctionComponent = () => {
 
   const initiateWeb3Provider = async () => {
     const web3Modal = new Web3Modal({
-      network: config.L1.network, // optional
+      network: config.chain.toLowerCase(), // optional
       cacheProvider: true, // optional
       providerOptions: {} // required
     })

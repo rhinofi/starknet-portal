@@ -17,6 +17,7 @@ import Widget, {
 import { L1Tokens } from '../../config/addresses/tokens/tokens.l1'
 import { L2Tokens } from '../../config/addresses/tokens/tokens.l2'
 import config from '../../config/config'
+import { ChainType } from '../../enums/ChainType'
 import { useAppSelector } from '../../redux/hooks'
 import {
   selectAddressL1,
@@ -42,7 +43,7 @@ const networks = [
 ]
 const MAX_ALLOWED_VALUE = 2 ** 256 - 1
 
-const chainId = config.networkId
+const chainId = ChainType[config.chain].id
 
 type FormValues = {
   token: SelectItemProps

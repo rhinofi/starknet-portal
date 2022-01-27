@@ -8,7 +8,7 @@ import {
   selectBalancesL1,
   selectBalancesL2
 } from '../../../../redux/slices/userSlice'
-import { formatBalance } from '../../../../utils'
+import { formatBalance } from '../../../../utils/number'
 import { Text } from '../../presentation/Text'
 import Input from './Input'
 import { InputLabel } from './InputLabel'

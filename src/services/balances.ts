@@ -1,12 +1,13 @@
 import { Abi } from 'starknet'
 import { AbiItem } from 'web3-utils'
-import { L1_ERC20_ABI } from '../abis/l1'
-import { L2_ERC20_ABI } from '../abis/l2'
 import { balanceOf, l1_ethBalanceOf } from '../api/erc20'
 import { L1Tokens } from '../config/addresses/tokens/tokens.l1'
 import { L2Tokens } from '../config/addresses/tokens/tokens.l2'
 import config from '../config/config'
 import { l1_getContract, l2_getContract } from '../utils/contract'
+
+const L1_ERC20_ABI = require('../abis/l1/ERC20.json')
+const L2_ERC20_ABI = require('../abis/l2/ERC20.json')
 
 export const getTokenBalances = async (
   account: string,

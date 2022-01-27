@@ -1,4 +1,4 @@
-import { ChainType, NetworkType } from '../../../enums'
+import { ChainType } from '../../../enums/ChainType'
 
 type TokenConfig = {
   name: string
@@ -15,7 +15,7 @@ type TokenConfig = {
 export const L1Tokens: TokenConfig[] = [
   {
     name: 'Ether',
-    symbol: NetworkType.L1.symbol,
+    symbol: 'ETH',
     decimals: 18,
     bridgeAddress: {
       [ChainType.MAIN.id]: '',

@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import tokens from '../../../assets/tokens'
-import { shortenAddress } from '../../../utils'
+import { shortenAddress } from '../../../utils/address'
 import { Button, TextButton } from '../../common/interactive/Button'
 import CopyButton from '../../common/interactive/CopyButton'
 import LabelCard from '../../common/presentation/LabelCard'
