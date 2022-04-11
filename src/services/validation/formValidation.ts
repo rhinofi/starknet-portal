@@ -1,5 +1,6 @@
-import * as Yup from 'yup'
 import { validateYupSchema, yupToFormErrors } from 'formik'
+import * as Yup from 'yup'
+
 import { amountSchema, tokenSchema } from './validators'
 
 export const dynamicSchemaCreator = (

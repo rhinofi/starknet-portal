@@ -1,8 +1,8 @@
+import { Text } from '@deversifi/dvf-shared-ui'
 import { FunctionComponent, useState } from 'react'
 import styled from 'styled-components'
 
 import { ReactComponent as CopyIcon } from '../../../assets/icons/copy.svg'
-import { Text } from '../presentation/Text'
 
 interface CopyProps {
   text: string
@@ -57,7 +57,7 @@ const CopyWrapper = styled.div<CopyWrapperProps>`
   position: relative;
   display: inline-block;
   cursor: pointer;
-  height: 16px;
+  height: 18px;
 
   svg {
     transition: opacity 0.1s linear;

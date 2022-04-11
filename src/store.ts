@@ -1,19 +1,21 @@
-import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit'
-import counterReducer from './example/counter/counterSlice'
-import userReducer from './redux/slices/userSlice'
+import createSagaMiddleware from '@redux-saga/core'
+import { configureStore } from '@reduxjs/toolkit'
+
+import modalReducer from './redux/slices/modalSlice'
+import walletReducer from './redux/slices/walletSlice'
+import sagas from './sagas/index'
+
+const sagaMiddleware = createSagaMiddleware()
 
 export const store = configureStore({
   reducer: {
-    counter: counterReducer,
-    user: userReducer
-  }
+    wallet: walletReducer,
+    modal: modalReducer
+  },
+  middleware: [sagaMiddleware]
 })
+
+sagaMiddleware.run(sagas)
 
 export type AppDispatch = typeof store.dispatch
 export type RootState = ReturnType<typeof store.getState>
-export type AppThunk<ReturnType = void> = ThunkAction<
-  ReturnType,
-  RootState,
-  unknown,
-  Action<string>
->

@@ -1,9 +1,9 @@
-import { FunctionComponent } from 'react'
-import styled from 'styled-components'
+import React, { FunctionComponent } from 'react'
 import { Outlet } from 'react-router-dom'
+import styled from 'styled-components'
 
-import TopNavigation from './TopNavigation'
 import LeftNavigation from './LeftNavigation'
+import TopNavigation from './TopNavigation'
 
 const Layout: FunctionComponent = () => {
   return (

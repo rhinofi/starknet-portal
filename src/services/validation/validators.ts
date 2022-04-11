@@ -1,5 +1,5 @@
-import * as Yup from 'yup'
 import Decimal from 'decimal.js'
+import * as Yup from 'yup'
 
 const errorMessages = {
   required: 'Field is required.',

@@ -1,7 +1,8 @@
+import { Text } from '@deversifi/dvf-shared-ui'
 import { FunctionComponent } from 'react'
 import styled from 'styled-components'
+
 import { Container } from '../../components/common/presentation/Container'
-import { Text } from '../../components/common/presentation/Text'
 
 const GetStartedButton: FunctionComponent = () => (
   <Wrapper alignItems='center' justifyContent='center'>
@@ -27,7 +28,7 @@ const OutsideCircle = styled(Container)`
   height: 150px;
   border-radius: 50%;
   border: 1px solid rgba(255, 255, 255, 0.3);
-  background: ${({ theme }) => theme.grey100};
+  background: ${({ theme }) => theme.secondaryBackground};
 `
 
 const Neon = styled.div`
@@ -71,7 +72,7 @@ const InsideCircle = styled(Container)`
   width: 123px;
   height: 123px;
   border-radius: 50%;
-  background: ${({ theme }) => theme.neutral800};
+  background: ${({ theme }) => theme.neutral};
   cursor: pointer;
   color: rgba(255, 255, 255, 0.5);
 
@@ -82,7 +83,7 @@ const InsideCircle = styled(Container)`
 `
 
 const CustomText = styled(Text)`
-  font-family: ${({ theme }) => theme.secondaryFont};
+  font-family: ${({ theme }) => theme.defaultFont};
   font-weight: 700;
   color: inherit;
 `

@@ -1,11 +1,13 @@
+import './styles/default.css'
+import './styles/reset.css'
+
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
+
 import App from './App'
 import * as serviceWorker from './serviceWorker'
 import { store } from './store'
-import './styles/default.css'
-import './styles/reset.css'
 
 ReactDOM.render(
   <React.StrictMode>

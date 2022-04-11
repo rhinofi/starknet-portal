@@ -1,5 +1,6 @@
 import { FunctionComponent, useState } from 'react'
 import styled from 'styled-components'
+
 import { Container } from '../../components/common/presentation/Container'
 import CircleInfoDetails from './CircleInfoDetails'
 import CurvedButton from './CurvedButton'
@@ -14,7 +15,7 @@ const titles = [
 const texts = [
   'Use our bridge to transfer your funds to Starknet and start exploring all the apps and integrations the universe has to offer. the universe. \n\n We’ve also built a portfolio for you, which will integrate with all apps on Starknet and enable you to track all your investments in one place. Handy right?',
   'Use our live, constantly-updated integrations explorer to find all the best apps launching on Starknet every day.',
-  "To bridge the gap with Metamarsk, all you need to do is create an Argent wallet and then transfer your funds from your Metamask account.  Then you're ready to roll."
+  'To bridge the gap with Metamask, all you need to do is create an Argent wallet and then transfer your funds from your Metamask account.  Then you\'re ready to roll.'
 ]
 
 const CircleInfo: FunctionComponent = () => {

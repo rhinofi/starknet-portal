@@ -1,5 +1,6 @@
 import { Abi } from 'starknet'
 import { AbiItem } from 'web3-utils'
+
 import { balanceOf, l1_ethBalanceOf } from '../api/erc20'
 import { L1Tokens } from '../config/addresses/tokens/tokens.l1'
 import { L2Tokens } from '../config/addresses/tokens/tokens.l2'
@@ -25,13 +26,13 @@ export const getTokenBalances = async (
       if (tokenConfig.tokenAddress) {
         const tokenContract = isL1
           ? l1_getContract(
-              tokenConfig.tokenAddress[config.networkId],
+            tokenConfig.tokenAddress[config.networkId],
               L1_ERC20_ABI as AbiItem[]
-            )
+          )
           : l2_getContract(
-              tokenConfig.tokenAddress[config.networkId],
+            tokenConfig.tokenAddress[config.networkId],
               L2_ERC20_ABI as Abi[]
-            )
+          )
 
         balanceOfPromises.push(
           balanceOf(
