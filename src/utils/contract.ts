@@ -43,7 +43,8 @@ export const l1_sendTransaction = async (
 }
 
 export const l2_getContract = (address: string, ABI: Abi[]) =>
-  new L2Contract(ABI, address, getStarknet().provider)
+  // new L2Contract(ABI, address, getStarknet().provider)
+  new L2Contract(ABI, address)
 
 export const l2_callContract = async (
   contract: L2Contract,

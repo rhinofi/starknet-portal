@@ -12,6 +12,7 @@ import { L2Tokens as L2TokensConfig } from '../../config/addresses/tokens/tokens
 import { MODALS } from '../../constants/modals'
 import { useAppDispatch, useAppSelector } from '../../redux/hooks'
 import { toggleModal } from '../../redux/slices/modalSlice'
+import { selectPrices } from '../../redux/slices/pricesSlice'
 import {
   approveToken,
   deposit,
@@ -30,7 +31,6 @@ import { Layers } from '../../utils/layer'
 const L1Tokens = L1TokensConfig.map(token => token.symbol)
 const L2Tokens = L2TokensConfig.map(token => token.symbol)
 
-// const StarknetIcon = tokens.starknet
 enum Networks {
   Starknet = 'starknet',
   Ethereum = 'ethereum'
@@ -57,9 +57,9 @@ const BridgeFundsWidget = () => {
   const addressL2 = useAppSelector(selectAddress(Layers.L2))
   const l1Balances = useAppSelector(selectBalances(Layers.L1))
   const l2Balances = useAppSelector(selectBalances(Layers.L2))
-  console.log('l1Balances', l1Balances)
+  const prices = useAppSelector(selectPrices)
+
   const allowancesL1 = useAppSelector(selectAllowances(Layers.L1))
-  console.log('allowances', allowancesL1)
 
   const formRef = useRef<FormikProps<FormValues>>(null)
   const addressInputRef = useRef() as MutableRefObject<HTMLInputElement>
@@ -80,7 +80,7 @@ const BridgeFundsWidget = () => {
       formRef?.current?.setFieldValue('toAddress', addressL1)
     }
   }, [addressL1])
-  console.log('is deposit', isDeposit)
+
   const switchIsDeposit = (l1Option: any, l2Option: any) =>
     isDeposit ? l1Option : l2Option
 
@@ -154,6 +154,7 @@ const BridgeFundsWidget = () => {
                 maxValue={l1Balances?.[values.token]?.balance || 0}
                 isExchangeBalance={false}
                 blockchainBalance={l1Balances}
+                tokenPrices={prices}
               />
               <WidgetSeparator />
               <Select<Networks>

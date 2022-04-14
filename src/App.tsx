@@ -2,34 +2,43 @@ import { useEffect } from 'react'
 import styled, { ThemeProvider } from 'styled-components'
 
 import GlobalModal from './components/common/interactive/Modal/GlobalModal'
+import Notifications from './components/common/presentation/Notifications/Notifications'
+import config from './config/config'
 import { useInterval } from './hooks/useInterval'
 import Router from './pages/Router'
 import { useAppDispatch, useAppSelector } from './redux/hooks'
+import { fetchPrices } from './redux/slices/pricesSlice'
 import { fetchBalancesL1, fetchBalancesL2, selectAddress } from './redux/slices/walletSlice'
+import { listenToLogMessageToL2Event } from './services/eventManager'
 import theme from './theme'
 import { Layers } from './utils/layer'
-
-const FETCH_BALANCES_INTERVAL = 10000 // TODO: move to config
 
 const App = () => {
   const dispatch = useAppDispatch()
   const addressL1 = useAppSelector(selectAddress(Layers.L1))
   const addressL2 = useAppSelector(selectAddress(Layers.L2))
 
-  const fetchTokenBalancesL1 = () => { dispatch(fetchBalancesL1({ address: addressL1 })) }
-  const fetchTokenBalancesL2 = () => { dispatch(fetchBalancesL2({ address: addressL2 })) }
+  const fetchTokenBalancesL1 = () => { if (addressL1) dispatch(fetchBalancesL1({ address: addressL1 })) }
+  const fetchTokenBalancesL2 = () => { if (addressL2) dispatch(fetchBalancesL2({ address: addressL2 })) }
 
   useEffect(fetchTokenBalancesL1, [addressL1])
   useEffect(fetchTokenBalancesL2, [addressL2])
 
-  useInterval(fetchTokenBalancesL1, FETCH_BALANCES_INTERVAL)
-  useInterval(fetchTokenBalancesL2, FETCH_BALANCES_INTERVAL)
+  useInterval(fetchTokenBalancesL1, config.intervals.fetchBalancesInterval)
+  useInterval(fetchTokenBalancesL2, config.intervals.fetchBalancesInterval)
+
+  useInterval(() => dispatch(fetchPrices()), config.intervals.fetchPricesInterval, true)
+
+  useEffect(() => {
+    listenToLogMessageToL2Event(dispatch)
+  }, [])
 
   return (
     <ThemeProvider theme={theme.dark}>
       <Main>
         <Router />
         <GlobalModal />
+        <Notifications />
       </Main>
     </ThemeProvider>
   )

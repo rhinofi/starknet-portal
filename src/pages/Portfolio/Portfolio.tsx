@@ -1,71 +1,53 @@
 import { Spacing, Table, Text, Title } from '@deversifi/dvf-shared-ui'
-import { Column } from '@deversifi/dvf-shared-ui/lib/components/table/types'
 import { TypographySizes } from '@deversifi/dvf-shared-ui/lib/types/formats'
-import { FunctionComponent, useMemo, useState } from 'react'
+import sumBy from 'lodash/sumBy'
+import { FunctionComponent, useMemo } from 'react'
 
 import { Page } from '../../components/common/presentation/Page'
 import { useAppSelector } from '../../redux/hooks'
+import { selectPrices } from '../../redux/slices/pricesSlice'
 import { selectBalances } from '../../redux/slices/walletSlice'
 import { Layers } from '../../utils/layer'
-
-type T = {
-  token: string
-  price: number
-  balance: number
-}
-
-const columns: Column<T>[] = [
-  {
-    id: 'token',
-    title: 'Token'
-  },
-  {
-    id: 'price',
-    title: 'Price 24h'
-  },
-  {
-    id: 'balance',
-    title: 'Total Balance'
-  }
-]
+import { calculateBalanceUsd, formatBalanceUsd } from '../../utils/price'
+import PortfolioColumns from './Portfolio.columns'
 
 const Portfolio: FunctionComponent = () => {
   const balancesL1 = useAppSelector(selectBalances(Layers.L1))
   const balancesL2 = useAppSelector(selectBalances(Layers.L2))
+  const prices = useAppSelector(selectPrices)
 
-  const [usdPortfolioValue] = useState(0)
+  const data = useMemo(() => Object.entries(balancesL1 || {}).map(([key, value]) => {
+    const token = key
+    const price = prices[token]
+    const balanceL1 = value.balance
+    const balanceUsdL1 = calculateBalanceUsd(balanceL1, price)
+    const balanceL2 = balancesL2?.[key]?.balance || 0
+    const balanceUsdL2 = calculateBalanceUsd(balanceL2, price)
+    const totalBalance = balanceL1 + balanceL2
+    const totalBalanceUsd = calculateBalanceUsd(totalBalance, price)
 
-  const balancesL1Array = useMemo(() => Object.entries(balancesL1 || {}).map(([key, value]) => ({
-    token: key,
-    balance: value.balance,
-    price: 0
-  })), [balancesL1])
+    return ({
+      token: key,
+      balanceL1,
+      balanceL2,
+      balanceUsdL1,
+      balanceUsdL2,
+      totalBalance,
+      totalBalanceUsd,
+      price
+    })
+  }), [balancesL1, balancesL2, prices])
 
-  const balancesL2Array = useMemo(() => Object.entries(balancesL2 || {}).map(([key, value]) => ({
-    token: key,
-    balance: value.balance,
-    price: 0
-  })), [balancesL2])
+  const portfolioValueUsd = useMemo(() => sumBy(data, 'totalBalanceUsd'), [data])
 
   return (
     <Page>
       <Title size='big'>Portfolio</Title>
-      <Text>${usdPortfolioValue}</Text>
+      <Text size={TypographySizes.Large} transparency={false}>{formatBalanceUsd(portfolioValueUsd)}</Text>
       <Spacing size='24' />
-      <Text size={TypographySizes.Big}>Ethereum Balances</Text>
-      <hr />
-      <Spacing size='12' />
       <Table
-        columns={columns}
-        data={balancesL1Array}
-      />
-      <Spacing size='24' />
-      <Text size={TypographySizes.Big}>Starknet Balances</Text>
-      <hr />
-      <Spacing size='12' />
-      <Table
-        columns={columns}
-        data={balancesL2Array}
+        columns={PortfolioColumns}
+        data={data}
       />
     </Page>
   )

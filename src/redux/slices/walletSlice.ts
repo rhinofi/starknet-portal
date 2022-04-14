@@ -102,5 +102,7 @@ export const selectAllowances = (layer: Layers) => (state: RootState) =>
   state.wallet[layer].allowances
 export const selectBalances = (layer: Layers) => (state: RootState) =>
   state.wallet[layer].balances
+export const selectWeb3Modal = (layer: Layers) => (state: RootState) =>
+  state.wallet[layer].web3Modal
 
 export default walletSlice.reducer

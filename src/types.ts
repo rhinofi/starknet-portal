@@ -10,3 +10,10 @@ export const WITHDRAW = 'wallet/withdraw'
 export const FETCH_BALANCES_L1 = 'wallet/fetchBalancesL1'
 export const FETCH_BALANCES_L2 = 'wallet/fetchBalancesL2'
 export const SET_ADDRESS_L2 = 'wallet/setAddressL2'
+
+// Notifications
+export const ADD_NOTIFICATION = 'notifications/addNotification'
+export const UPDATE_NOTIFICATION = 'notifications/updateNotification'
+
+// Prices
+export const FETCH_PRICES = 'prices/fetchPrices'

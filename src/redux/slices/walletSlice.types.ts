@@ -12,10 +12,10 @@ type Layer = {
 };
 
 export type Balance = {
-  symbol: string
-  name: string
-  balance: number
-}
+  symbol: string;
+  name: string;
+  balance: number;
+};
 
 export type SetAllowancePayload = {
   token: string;
@@ -44,9 +44,9 @@ export type DepositPayload = {
 } & WithdrawPayload;
 
 export type FetchBalancesPayload = {
-  address: string
-}
+  address: string;
+};
 
 export type SetBalancesL1Payload = {
-  balances: { [key: string]: Balance }
-}
+  balances: { [key: string]: Balance };
+};

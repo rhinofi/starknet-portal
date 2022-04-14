@@ -42,5 +42,18 @@ export const L2Tokens: TokenConfig[] = [
       [ChainType.GOERLI.id]:
         '0x021eb73bd66eb18c37ec7b1e2567bc3fa8ba9ac0d391b53745a5f9d483217595'
     }
+  },
+  {
+    name: 'SLF',
+    symbol: 'SLF',
+    decimals: 6,
+    bridgeAddress: {
+      [ChainType.MAIN.id]: '',
+      [ChainType.GOERLI.id]: '0x00fd2a9843c19436542e0ac7fc7b5cbf1d0b69fc2abea6d68591e46a5ca2d75a'
+    },
+    tokenAddress: {
+      [ChainType.MAIN.id]: '',
+      [ChainType.GOERLI.id]: '0x07a39a50bf689e9430fc81fba0f4d46e245e1657e77455548ed7e32c808cfc10'
+    }
   }
 ]

@@ -10,10 +10,8 @@ import { L2Tokens } from '../../config/addresses/tokens/tokens.l2'
 import config from '../../config/config'
 import { setBalancesL1, setBalancesL2 } from '../../redux/slices/walletSlice'
 import { FetchBalancesPayload } from '../../redux/slices/walletSlice.types'
+import { ABIS } from '../../utils/abis'
 import { l1_getContract, l2_getContract } from '../../utils/contract'
-
-const L1_ERC20_ABI = require('../../abis/l1/ERC20.json')
-const L2_ERC20_ABI = require('../../abis/l2/ERC20.json')
 
 const handleFetchBalances = async (account: string, isL1: boolean = true) => {
   const tokens = isL1 ? L1Tokens : L2Tokens
@@ -28,12 +26,12 @@ const handleFetchBalances = async (account: string, isL1: boolean = true) => {
       if (tokenConfig.tokenAddress) {
         const tokenContract = isL1
           ? l1_getContract(
-            tokenConfig.tokenAddress[config.networkId],
-                L1_ERC20_ABI as AbiItem[]
+            tokenConfig.tokenAddress[config.chainIdL1],
+                ABIS.L1_ERC20 as AbiItem[]
           )
           : l2_getContract(
-            tokenConfig.tokenAddress[config.networkId],
-                L2_ERC20_ABI as Abi[]
+            tokenConfig.tokenAddress[config.chainIdL2],
+                ABIS.L2_ERC20 as Abi[]
           )
 
         balanceOfPromises.push(
@@ -51,7 +49,6 @@ const handleFetchBalances = async (account: string, isL1: boolean = true) => {
         balanceOfPromises.push(l1_ethBalanceOf(account))
       }
     })
-
     const balanceOfResults = await Promise.allSettled(balanceOfPromises)
 
     return tokens.map((token, index) => ({
@@ -74,6 +71,6 @@ export function * handleFetchBalancesL1 (action: PayloadAction<FetchBalancesPayl
 }
 
 export function * handleFetchBalancesL2 (action: PayloadAction<FetchBalancesPayload>) {
-  const balances = yield handleFetchBalances(action?.payload?.address, true)
+  const balances = yield handleFetchBalances(action?.payload?.address, false)
   yield put(setBalancesL2({ balances: keyBy(balances, 'symbol') }))
 }

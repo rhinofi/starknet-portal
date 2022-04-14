@@ -4,12 +4,10 @@ import { PayloadAction } from '@reduxjs/toolkit'
 import { allowance, approve } from '../../api/erc20'
 import { fetchAllowance, setAllowance } from '../../redux/slices/walletSlice'
 import { ApproveTokenPayload, FetchAllowancePayload } from '../../redux/slices/walletSlice.types'
+import { ABIS } from '../../utils/abis'
 import { l1_getContract, l2_getContract } from '../../utils/contract'
 import { Layers, layerSwitch } from '../../utils/layer'
 import { getTokenDetails } from '../../utils/tokens'
-
-const ERC20ABIL1 = require('../../abis/l1/ERC20.json')
-const ERC20ABIL2 = require('../../abis/l2/ERC20.json')
 
 const MAX_ALLOWED_VALUE = 2 ** 256 - 1 // TODO: refactor
 
@@ -31,7 +29,7 @@ export function * handleFetchAllowance (action: PayloadAction<FetchAllowancePayl
       if (tokenDetails && tokenDetails.tokenAddress) {
         const contract = l1_getContract(
           tokenDetails.tokenAddress[chainId],
-          ERC20ABIL1
+          ABIS.L1_ERC20
         )
 
         const allowanceRes = yield allowance({
@@ -61,7 +59,7 @@ export function * handleApproveToken (action: PayloadAction<ApproveTokenPayload>
   if (tokenDetails && tokenDetails.tokenAddress) {
     const contract = layerSwitch(layer, l1_getContract, l2_getContract)(
       tokenDetails.tokenAddress[chainId],
-      layerSwitch(layer, ERC20ABIL1, ERC20ABIL2)
+      layerSwitch(layer, ABIS.L1_ERC20, ABIS.L2_ERC20)
     )
 
     yield approve({

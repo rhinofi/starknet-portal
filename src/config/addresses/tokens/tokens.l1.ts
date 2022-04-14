@@ -14,7 +14,7 @@ type TokenConfig = {
 
 export const L1Tokens: TokenConfig[] = [
   {
-    name: 'Ether',
+    name: 'ethereum',
     symbol: 'ETH',
     decimals: 18,
     bridgeAddress: {
@@ -23,7 +23,7 @@ export const L1Tokens: TokenConfig[] = [
     }
   },
   {
-    name: 'TKN',
+    name: 'usd-coin',
     symbol: 'TKN',
     decimals: 8,
     bridgeAddress: {
@@ -33,6 +33,19 @@ export const L1Tokens: TokenConfig[] = [
     tokenAddress: {
       [ChainType.MAIN.id]: '',
       [ChainType.GOERLI.id]: '0xe4C2493C66e068D65Cf1C38a2d7bDa25d9f08980'
+    }
+  },
+  {
+    name: 'bitcoin', // to get a price from Coingecko
+    symbol: 'SLF',
+    decimals: 6,
+    bridgeAddress: {
+      [ChainType.MAIN.id]: '',
+      [ChainType.GOERLI.id]: '0x160e7631f22035149A01420cADD1012267551181'
+    },
+    tokenAddress: {
+      [ChainType.MAIN.id]: '',
+      [ChainType.GOERLI.id]: '0xd44BB808bfE43095dBb94c83077766382D63952a'
     }
   }
 ]
