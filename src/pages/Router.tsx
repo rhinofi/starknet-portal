@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
 import Layout from '../components/Layout/Layout'
 import BridgeFunds from './BridgeFunds/BridgeFunds'
+import Explorer from './Explorer/Explorer'
 import NoMatch from './NoMatch/NoMatch'
 import Onboarding from './Onboarding/Onboarding'
 import Portfolio from './Portfolio/Portfolio'
@@ -15,6 +16,7 @@ const Router: FunctionComponent = () => {
           <Route index element={<Onboarding />} />
           <Route path="/portfolio" element={<Portfolio />} />
           <Route path="/bridge" element={<BridgeFunds />} />
+          <Route path="/explorer" element={<Explorer />} />
           <Route path="*" element={<NoMatch />} />
         </Route>
       </Routes>
