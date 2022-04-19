@@ -1,7 +1,7 @@
 import { call, put, takeLatest } from '@redux-saga/core/effects'
 
 import { L1Tokens } from '../../config/addresses/tokens/tokens.l1'
-import config from '../../config/config'
+import { config } from '../../config/config'
 import { setPrices } from '../../redux/slices/pricesSlice'
 import { FETCH_PRICES } from '../../types'
 

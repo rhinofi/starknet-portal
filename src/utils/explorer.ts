@@ -1,4 +1,4 @@
-import config from '../config/config'
+import { config } from '../config/config'
 import { ChainType } from '../enums/ChainType'
 
 const getExplorerLink = (isL1: boolean) => (address: string, type: string) => {

@@ -19,7 +19,7 @@ interface CurvedButtonProps {
   setActive: Function
 }
 
-const CurvedButton: FunctionComponent<CurvedButtonProps> = ({
+export const CurvedButton: FunctionComponent<CurvedButtonProps> = ({
   text = '',
   arc = 100,
   radius = 100,
@@ -74,8 +74,6 @@ const CurvedButton: FunctionComponent<CurvedButtonProps> = ({
     </Wrapper>
   )
 }
-
-export default CurvedButton
 
 const Wrapper = styled.div``
 

@@ -3,7 +3,7 @@ import { put, select } from '@redux-saga/core/effects'
 import Web3 from 'web3'
 import Web3Modal from 'web3modal'
 
-import config from '../../config/config'
+import { config } from '../../config/config'
 import { MODALS } from '../../constants/modals'
 import { NOTIFICATIONS } from '../../constants/notifications'
 import { toggleModal } from '../../redux/slices/modalSlice'

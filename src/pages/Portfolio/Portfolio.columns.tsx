@@ -17,7 +17,7 @@ type T = {
     totalBalanceUsd: number
   }
 
-const PortfolioColumns: Column<T>[] = [
+export const PortfolioColumns: Column<T>[] = [
   {
     id: 'token',
     title: 'Token',
@@ -71,5 +71,3 @@ const PortfolioColumns: Column<T>[] = [
     )
   }
 ]
-
-export default PortfolioColumns

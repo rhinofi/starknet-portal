@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 import { ProjectData } from './Explorer'
-import NodeWithLink from './NodeWithLink'
+import { NodeWithLink } from './NodeWithLink'
 
 type Props = {
   angle: number;
@@ -16,7 +16,7 @@ const dimensions = {
   linkOffset: -2
 }
 
-const Project = ({ angle = 0, cumulatedAngle, project }: Props) => {
+export const Project = ({ angle = 0, cumulatedAngle, project }: Props) => {
   return (
     <NodeWithLink angle={angle} dimensions={dimensions}>
       <ProjectCore cumulatedAngle={cumulatedAngle}>
@@ -25,8 +25,6 @@ const Project = ({ angle = 0, cumulatedAngle, project }: Props) => {
     </NodeWithLink>
   )
 }
-
-export default Project
 
 const ProjectCore = styled.div<{ cumulatedAngle: number }>`
   width: ${dimensions.nodeSize}px;

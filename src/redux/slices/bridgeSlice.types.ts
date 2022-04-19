@@ -3,6 +3,7 @@ import { Layers } from '../../utils/layer'
 
 export type BridgeState = {
   deposit: DepositState;
+  withdrawal: WithdrawalState;
 };
 
 export type DepositState = {
@@ -17,3 +18,7 @@ type TransactionState = {
   hash: string;
   status: TransactionStatuses;
 };
+
+export type WithdrawalState = DepositState & {
+  toAddress?: string
+}

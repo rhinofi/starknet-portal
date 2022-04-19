@@ -6,7 +6,7 @@ type IconProps = {
     active?: boolean
 }
 
-const Icon = ({
+export const Icon = ({
   id,
   active = false,
   spinning = false
@@ -18,8 +18,6 @@ const Icon = ({
 
   return <HtmlIcon active={active} className={c} />
 }
-
-export default Icon
 
 type HtmlIconProps = {
     active: boolean

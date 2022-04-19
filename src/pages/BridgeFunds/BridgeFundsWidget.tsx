@@ -1,32 +1,28 @@
-import { Button, CoreCard, Input, Select, Spacing, TokenInput } from '@deversifi/dvf-shared-ui'
+import { CoreCard, Input, Select, Spacing, TokenInput } from '@deversifi/dvf-shared-ui'
 import { Form, Formik, FormikProps } from 'formik'
 import filter from 'lodash/filter'
 import get from 'lodash/get'
+import isEmpty from 'lodash/isEmpty'
 import keyBy from 'lodash/keyBy'
 import { MutableRefObject, useEffect, useMemo, useRef, useState } from 'react'
 import styled from 'styled-components'
 
-import tokens from '../../assets/tokens'
+import { tokens } from '../../assets/tokens'
 import { L1Tokens as L1TokensConfig } from '../../config/addresses/tokens/tokens.l1'
 import { L2Tokens as L2TokensConfig } from '../../config/addresses/tokens/tokens.l2'
-import { MODALS } from '../../constants/modals'
 import { useAppDispatch, useAppSelector } from '../../redux/hooks'
-import { toggleModal } from '../../redux/slices/modalSlice'
 import { selectPrices } from '../../redux/slices/pricesSlice'
 import {
-  approveToken,
-  deposit,
   fetchAllowance,
   selectAddress,
-  selectAllowances,
-  selectBalances,
-  withdraw
+  selectBalances
 } from '../../redux/slices/walletSlice'
 import {
   BridgeValidationSchema,
   dynamicSchemaCreator
 } from '../../services/validation/formValidation'
-import { Layers } from '../../utils/layer'
+import { Layers, layerSwitch } from '../../utils/layer'
+import { BridgeFundsWidgetCTA } from './BridgeFundsWidgetCTA'
 
 const L1Tokens = L1TokensConfig.map(token => token.symbol)
 const L2Tokens = L2TokensConfig.map(token => token.symbol)
@@ -42,7 +38,7 @@ const networks = [
 ]
 const networksById = keyBy(networks, 'id')
 
-type FormValues = {
+export type FormValues = {
   token: string
   amount: string
   fromNetwork: Networks
@@ -50,7 +46,7 @@ type FormValues = {
   toAddress: string
 }
 
-const BridgeFundsWidget = () => {
+export const BridgeFundsWidget = () => {
   const dispatch = useAppDispatch()
 
   const addressL1 = useAppSelector(selectAddress(Layers.L1))
@@ -59,30 +55,24 @@ const BridgeFundsWidget = () => {
   const l2Balances = useAppSelector(selectBalances(Layers.L2))
   const prices = useAppSelector(selectPrices)
 
-  const allowancesL1 = useAppSelector(selectAllowances(Layers.L1))
-
   const formRef = useRef<FormikProps<FormValues>>(null)
   const addressInputRef = useRef() as MutableRefObject<HTMLInputElement>
-
-  const { token } = useMemo(() => formRef?.current?.values || {}, [formRef?.current?.values]) as FormValues
-  const tokenAllowance = useMemo(() => token === 'ETH' ? 2 ** 256 - 1 : allowancesL1 ? allowancesL1[token] : 0, [token, allowancesL1])
 
   const [isDeposit, setIsDeposit] = useState(true)
 
   useEffect(() => {
     if (isDeposit && addressL2) {
-      formRef?.current?.setFieldValue('toAddress', addressL2)
+      const currentValue = formRef?.current?.values?.toAddress
+      formRef?.current?.setFieldValue('toAddress', (currentValue === addressL1 || !currentValue) ? addressL2 : currentValue)
     }
-  }, [addressL2])
+  }, [addressL2, isDeposit])
 
   useEffect(() => {
     if (!isDeposit && addressL1) {
-      formRef?.current?.setFieldValue('toAddress', addressL1)
+      const currentValue = formRef?.current?.values?.toAddress
+      formRef?.current?.setFieldValue('toAddress', (currentValue === addressL2 || !currentValue) ? addressL1 : currentValue)
     }
-  }, [addressL1])
-
-  const switchIsDeposit = (l1Option: any, l2Option: any) =>
-    isDeposit ? l1Option : l2Option
+  }, [addressL1, isDeposit])
 
   const handleTokenSelect = (
     token: string,
@@ -104,12 +94,13 @@ const BridgeFundsWidget = () => {
       (isFrom && value === Networks.Ethereum) ||
         (!isFrom && value === Networks.Starknet)
     )
+    // TODO:
     // if (formRef?.current) {
     //   fetchAllowance(formRef?.current?.values.token)
     // }
   }
 
-  const fromL1 = formRef?.current?.values?.fromNetwork === Networks.Ethereum
+  const layer = useMemo(() => isDeposit ? Layers.L1 : Layers.L2, [isDeposit])
 
   return (
     <CoreCard>
@@ -125,7 +116,7 @@ const BridgeFundsWidget = () => {
           dynamicSchemaCreator(value, BridgeValidationSchema, {
             balance: get(
               filter(
-                switchIsDeposit(l1Balances, l2Balances),
+                layerSwitch(layer, l1Balances, l2Balances),
                 (balance: any) =>
                   balance.symbol === formRef?.current?.values?.token
               ),
@@ -136,7 +127,7 @@ const BridgeFundsWidget = () => {
         onSubmit={() => {}}
         innerRef={formRef}
       >
-        {({ values, setFieldValue }) => (
+        {({ values, setFieldValue, isValid, touched }) => (
           <>
             <Form>
               <TokenInput
@@ -145,15 +136,15 @@ const BridgeFundsWidget = () => {
                 inputName='amount'
                 selectName='token'
                 selectLabel='Token'
-                list={fromL1 ? L1Tokens : L2Tokens}
+                list={layerSwitch(layer, L1Tokens, L2Tokens)}
                 // @ts-ignore
                 onSelect={(value: any) => handleTokenSelect(value, setFieldValue)}
                 // @ts-ignore
                 onInputChange={(value: number) =>
                   setFieldValue('amount', value.toString())}
-                maxValue={l1Balances?.[values.token]?.balance || 0}
+                maxValue={layerSwitch(layer, l1Balances?.[values.token]?.balance, l2Balances?.[values.token]?.balance) || 0}
                 isExchangeBalance={false}
-                blockchainBalance={l1Balances}
+                blockchainBalance={layerSwitch(layer, l1Balances, l2Balances)}
                 tokenPrices={prices}
               />
               <WidgetSeparator />
@@ -182,53 +173,20 @@ const BridgeFundsWidget = () => {
               />
             </Form>
             <Spacing size='24' />
-            {!switchIsDeposit(addressL1, addressL2)
-              ? (
-                <Button fullWidth onClick={() => dispatch(toggleModal(
-                  switchIsDeposit(MODALS.CONNECT_WALLET_L1, MODALS.CONNECT_WALLET_L2)))}>
-                Connect {switchIsDeposit('L1', 'L2')} wallet
-                </Button>
-              )
-              : tokenAllowance === 0
-                ? (
-                  <Button fullWidth onClick={() => dispatch(approveToken({
-                    layer: switchIsDeposit(Layers.L1, Layers.L2),
-                    token: values.token,
-                    address: switchIsDeposit(addressL1, addressL2)
-                  }))}>
-                    {'Approve'}
-                  </Button>
-                )
-                : (
-                  <Button
-                    fullWidth
-                    onClick={
-                      switchIsDeposit(() =>
-                        dispatch(deposit({
-                          fromAddress: addressL1,
-                          toAddress: values.toAddress,
-                          amount: values.amount,
-                          token: values.token
-                        })),
-                      () => dispatch(withdraw({
-                        toAddress: values.toAddress,
-                        amount: values.amount,
-                        token: values.token
-                      }))
-                      )
-                    }
-                  >
-                    {switchIsDeposit('Deposit', 'Withdrawal')}
-                  </Button>
-                )}
+            <BridgeFundsWidgetCTA
+              layer={layer}
+              isDeposit={isDeposit}
+              addressL1={addressL1}
+              addressL2={addressL2}
+              formValues={values}
+              isFormValid={isValid && !isEmpty(touched)}
+            />
           </>
         )}
       </Formik>
     </CoreCard>
   )
 }
-
-export default BridgeFundsWidget
 
 const WidgetSeparator = styled.div`
   background: ${({ theme }) => theme.neutral};

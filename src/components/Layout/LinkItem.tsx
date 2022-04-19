@@ -2,7 +2,7 @@ import { ElementType, FunctionComponent } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import styled, { css } from 'styled-components'
 
-import HeaderLabel from './HeaderLabel'
+import { HeaderLabel } from './HeaderLabel'
 
 interface LinkItemProps {
     tab: string;
@@ -10,7 +10,7 @@ interface LinkItemProps {
     Icon: ElementType;
 }
 
-const LinkItem: FunctionComponent<LinkItemProps> = (
+export const LinkItem: FunctionComponent<LinkItemProps> = (
   {
     tab = '',
     path = '',
@@ -30,8 +30,6 @@ const LinkItem: FunctionComponent<LinkItemProps> = (
     </HeaderLink>
   )
 }
-
-export default LinkItem
 
 const HeaderLink = styled(Link)<{ $isActive: boolean }>`
   position: relative;

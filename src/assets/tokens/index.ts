@@ -8,7 +8,7 @@ import usdc from './usdc.svg'
 import usdt from './usdt.svg'
 import wbtc from './wbtc.svg'
 
-const tokens: { [key: string]: string } = {
+export const tokens: { [key: string]: string } = {
   eth,
   ethereum,
   starknet,
@@ -19,5 +19,3 @@ const tokens: { [key: string]: string } = {
   usdt,
   wbtc
 }
-
-export default tokens

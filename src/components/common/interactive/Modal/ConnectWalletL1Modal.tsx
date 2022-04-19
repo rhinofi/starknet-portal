@@ -12,7 +12,7 @@ type Props = {
   isVisible: boolean
 }
 
-const ConnectWalletL1Modal = ({ isVisible }: Props) => {
+export const ConnectWalletL1Modal = ({ isVisible }: Props) => {
   const dispatch = useAppDispatch()
 
   return (
@@ -36,5 +36,3 @@ const ConnectWalletL1Modal = ({ isVisible }: Props) => {
     </Modal>
   )
 }
-
-export default ConnectWalletL1Modal

@@ -4,7 +4,7 @@ import styled from 'styled-components'
 
 import { Container } from '../../components/common/presentation/Container'
 
-const GetStartedButton: FunctionComponent = () => (
+export const GetStartedButton: FunctionComponent = () => (
   <Wrapper alignItems='center' justifyContent='center'>
     <Neon />
     <OutsideCircle alignItems='center' justifyContent='center'>
@@ -14,8 +14,6 @@ const GetStartedButton: FunctionComponent = () => (
     </OutsideCircle>
   </Wrapper>
 )
-
-export default GetStartedButton
 
 const Wrapper = styled(Container)`
   height: 100%;

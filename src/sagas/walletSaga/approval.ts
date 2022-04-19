@@ -2,14 +2,13 @@ import { put } from '@redux-saga/core/effects'
 import { PayloadAction } from '@reduxjs/toolkit'
 
 import { allowance, approve } from '../../api/erc20'
+import { config } from '../../config/config'
 import { fetchAllowance, setAllowance } from '../../redux/slices/walletSlice'
 import { ApproveTokenPayload, FetchAllowancePayload } from '../../redux/slices/walletSlice.types'
 import { ABIS } from '../../utils/abis'
 import { l1_getContract, l2_getContract } from '../../utils/contract'
 import { Layers, layerSwitch } from '../../utils/layer'
 import { getTokenDetails } from '../../utils/tokens'
-
-const MAX_ALLOWED_VALUE = 2 ** 256 - 1 // TODO: refactor
 
 export const chainId = 5 // TODO: refactor chain id to store
 
@@ -20,7 +19,7 @@ export function * handleFetchAllowance (action: PayloadAction<FetchAllowancePayl
     yield put(
       setAllowance({
         token,
-        allowance: MAX_ALLOWED_VALUE
+        allowance: config.maxAllowance
       })
     )
   } else {
@@ -64,7 +63,7 @@ export function * handleApproveToken (action: PayloadAction<ApproveTokenPayload>
 
     yield approve({
       spender: tokenDetails.bridgeAddress[chainId],
-      value: MAX_ALLOWED_VALUE.toString(16),
+      value: config.maxAllowance.toString(16),
       contract,
       options: {
         from: address

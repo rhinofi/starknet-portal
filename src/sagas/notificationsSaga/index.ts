@@ -1,7 +1,7 @@
 import { delay, put, takeEvery } from '@redux-saga/core/effects'
 import { PayloadAction } from '@reduxjs/toolkit'
 
-import config from '../../config/config'
+import { config } from '../../config/config'
 import { AddNotificationPayload, NotificationStatuses, UpdateNotificationPayload } from '../../redux/slices/notifications.types'
 import { deleteNotification, modifyNotification, setNotification } from '../../redux/slices/notificationsSlice'
 import { ADD_NOTIFICATION, UPDATE_NOTIFICATION } from '../../types'

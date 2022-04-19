@@ -5,13 +5,11 @@ interface HeaderLabelProps {
     tab: string;
 }
 
-const HeaderLabel: FunctionComponent<HeaderLabelProps> = ({ tab = '' }) => (
+export const HeaderLabel: FunctionComponent<HeaderLabelProps> = ({ tab = '' }) => (
   <Label>
     {tab}
   </Label>
 )
-
-export default HeaderLabel
 
 const Label = styled.div`
   display: flex;

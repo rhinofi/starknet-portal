@@ -3,6 +3,7 @@ import { createAction, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from '../../store'
 import {
   APPROVE_TOKEN,
+  CLAIM_WITHDRAW,
   CONNECT_WALLET_L1,
   CONNECT_WALLET_L2,
   DEPOSIT,
@@ -11,7 +12,7 @@ import {
   FETCH_ALLOWANCE,
   FETCH_BALANCES_L1,
   FETCH_BALANCES_L2,
-  WITHDRAW
+  INITIATE_WITHDRAW
 } from '../../types'
 import { Layers } from '../../utils/layer'
 import {
@@ -86,7 +87,8 @@ export const fetchAllowance =
   createAction<FetchAllowancePayload>(FETCH_ALLOWANCE)
 export const approveToken = createAction<ApproveTokenPayload>(APPROVE_TOKEN)
 export const deposit = createAction<DepositPayload>(DEPOSIT)
-export const withdraw = createAction<WithdrawPayload>(WITHDRAW)
+export const initiateWithdraw = createAction<WithdrawPayload>(INITIATE_WITHDRAW)
+export const claimWithdraw = createAction<WithdrawPayload>(CLAIM_WITHDRAW)
 export const fetchBalancesL1 = createAction<FetchBalancesPayload>(FETCH_BALANCES_L1)
 export const fetchBalancesL2 = createAction<FetchBalancesPayload>(FETCH_BALANCES_L2)
 

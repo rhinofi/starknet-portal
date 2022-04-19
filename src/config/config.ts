@@ -7,9 +7,10 @@ interface Config {
   intervals: { [key: string]: number }
   timeouts: { [key: string]: number }
   starknetContract: string
+  maxAllowance: number
 }
 
-const config: Config = {
+export const config: Config = {
   chainId: 5,
   chainIdL1: 5,
   chainIdL2: 5,
@@ -22,7 +23,6 @@ const config: Config = {
   timeouts: {
     notificationCloseTimeout: 5000
   },
-  starknetContract: '0xde29d060d45901fb19ed6c6e959eb22d8626708e'
+  starknetContract: '0xde29d060d45901fb19ed6c6e959eb22d8626708e',
+  maxAllowance: 2 ** 256 - 1
 }
-
-export default config

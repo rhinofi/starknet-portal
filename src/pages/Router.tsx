@@ -1,14 +1,14 @@
 import { FunctionComponent } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
-import Layout from '../components/Layout/Layout'
-import BridgeFunds from './BridgeFunds/BridgeFunds'
-import Explorer from './Explorer/Explorer'
-import NoMatch from './NoMatch/NoMatch'
-import Onboarding from './Onboarding/Onboarding'
-import Portfolio from './Portfolio/Portfolio'
+import { Layout } from '../components/Layout/Layout'
+import { BridgeFunds } from './BridgeFunds/BridgeFunds'
+import { Explorer } from './Explorer/Explorer'
+import { NoMatch } from './NoMatch/NoMatch'
+import { Onboarding } from './Onboarding/Onboarding'
+import { Portfolio } from './Portfolio/Portfolio'
 
-const Router: FunctionComponent = () => {
+export const Router: FunctionComponent = () => {
   return (
     <BrowserRouter>
       <Routes>
@@ -16,12 +16,10 @@ const Router: FunctionComponent = () => {
           <Route index element={<Onboarding />} />
           <Route path="/portfolio" element={<Portfolio />} />
           <Route path="/bridge" element={<BridgeFunds />} />
-          <Route path="/explorer" element={<Explorer />} />
+          <Route path="/explore" element={<Explorer />} />
           <Route path="*" element={<NoMatch />} />
         </Route>
       </Routes>
     </BrowserRouter>
   )
 }
-
-export default Router

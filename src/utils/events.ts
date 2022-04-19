@@ -34,7 +34,7 @@ export const getTransactionHash = (
   ])
 }
 
-export const waitForTransaction = async (transactionHash: string, requiredStatus = 'RECEIVED', retryInterval = 5000) => {
+export const waitForTransaction = async (transactionHash: string, requiredStatus = 'ACCEPTED_ON_L2', retryInterval = 5000) => {
   return new Promise((resolve, reject) => {
     let processing = false
     const intervalId = setInterval(async () => {

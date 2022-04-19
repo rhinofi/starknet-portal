@@ -3,9 +3,9 @@ import styled from 'styled-components'
 
 import { useAppSelector } from '../../../../redux/hooks'
 import { selectNotifications } from '../../../../redux/slices/notificationsSlice'
-import SingleNotification from './SingleNotification'
+import { SingleNotification } from './SingleNotification'
 
-const Notifications = () => {
+export const Notifications = () => {
   const notifications = useAppSelector(selectNotifications)
 
   if (isEmpty(notifications)) {
@@ -18,8 +18,6 @@ const Notifications = () => {
     </Wrapper>
   )
 }
-
-export default Notifications
 
 const Wrapper = styled.div`
 position: fixed;

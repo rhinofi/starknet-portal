@@ -2,7 +2,7 @@ import { Button } from '@deversifi/dvf-shared-ui'
 import { useMemo } from 'react'
 import styled from 'styled-components'
 
-import tokens from '../../../assets/tokens'
+import { tokens } from '../../../assets/tokens'
 import { MODALS } from '../../../constants/modals'
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks'
 import { toggleModal } from '../../../redux/slices/modalSlice'
@@ -14,14 +14,14 @@ import {
 import { shortenAddress } from '../../../utils/address'
 import { getExplorerLinkL1, getExplorerLinkL2 } from '../../../utils/explorer'
 import { Layers, layerSwitch } from '../../../utils/layer'
-import CopyButton from '../../common/interactive/CopyButton'
+import { CopyButton } from '../../common/interactive/CopyButton'
 import { Container } from '../presentation/Container'
 
 type Props = {
   layer: Layers;
 };
 
-const WalletInfo = ({ layer }: Props) => {
+export const WalletInfo = ({ layer }: Props) => {
   const address = useAppSelector(selectAddress(layer))
 
   const dispatch = useAppDispatch()
@@ -64,16 +64,14 @@ const WalletInfo = ({ layer }: Props) => {
             </ExplorerLink>
             <CopyButton text={address} successPosition="bottom" />
           &nbsp;
-            <Button size="16" onClick={disconnectWallet}>
+            <DisconnectButton size="16" onClick={disconnectWallet}>
             Disconnect
-            </Button>
+            </DisconnectButton>
           </CustomButton>
         )}
     </>
   )
 }
-
-export default WalletInfo
 
 const ButtonContent = styled(Container)`
   img {
@@ -96,4 +94,8 @@ const ExplorerLink = styled.a`
   font-family: ${({ theme }) => theme.defaultFont};
   font-weight: 400;
   color: ${({ theme }) => theme.textSecondary};
+`
+
+const DisconnectButton = styled(Button)`
+  margin-left: 10px;
 `

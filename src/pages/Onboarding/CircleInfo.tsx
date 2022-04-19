@@ -2,9 +2,9 @@ import { FunctionComponent, useState } from 'react'
 import styled from 'styled-components'
 
 import { Container } from '../../components/common/presentation/Container'
-import CircleInfoDetails from './CircleInfoDetails'
-import CurvedButton from './CurvedButton'
-import GetStartedButton from './GetStartedButton'
+import { CircleInfoDetails } from './CircleInfoDetails'
+import { CurvedButton } from './CurvedButton'
+import { GetStartedButton } from './GetStartedButton'
 
 const titles = [
   'Bridge funds in minutes',
@@ -18,7 +18,7 @@ const texts = [
   'To bridge the gap with Metamask, all you need to do is create an Argent wallet and then transfer your funds from your Metamask account.  Then you\'re ready to roll.'
 ]
 
-const CircleInfo: FunctionComponent = () => {
+export const CircleInfo: FunctionComponent = () => {
   const [activeItem, setActiveItem] = useState<number | null>(null)
 
   return (
@@ -64,8 +64,6 @@ const CircleInfo: FunctionComponent = () => {
     </Container>
   )
 }
-
-export default CircleInfo
 
 const Wrapper = styled.div`
   position: relative;

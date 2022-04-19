@@ -7,14 +7,14 @@ import { useAppDispatch } from '../../../../redux/hooks'
 import { Notification, NotificationStatuses } from '../../../../redux/slices/notifications.types'
 import { deleteNotification } from '../../../../redux/slices/notificationsSlice'
 import { getExplorerLinkL1 } from '../../../../utils/explorer'
-import Icon from '../Icon'
+import { Icon } from '../Icon'
 
 type Props = {
     id: string
     notification: Notification
 }
 
-const SingleNotification = ({ id, notification }: Props) => {
+export const SingleNotification = ({ id, notification }: Props) => {
   const dispatch = useAppDispatch()
 
   const { title, status, meta } = notification
@@ -56,8 +56,6 @@ const SingleNotification = ({ id, notification }: Props) => {
     </Wrapper>
   )
 }
-
-export default SingleNotification
 
 type WrapperProps = {
     $isPending: boolean

@@ -11,7 +11,7 @@ interface CircleInfoDetailsProps {
   text: string
 }
 
-const CircleInfoDetails: FunctionComponent<CircleInfoDetailsProps> = ({
+export const CircleInfoDetails: FunctionComponent<CircleInfoDetailsProps> = ({
   visible = true,
   title = '',
   text = ''
@@ -25,8 +25,6 @@ const CircleInfoDetails: FunctionComponent<CircleInfoDetailsProps> = ({
     )}
   </Wrapper>
 )
-
-export default CircleInfoDetails
 
 const Wrapper = styled(Container)`
   width: 290px;

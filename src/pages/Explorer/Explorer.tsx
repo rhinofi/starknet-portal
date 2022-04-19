@@ -9,7 +9,7 @@ import frax from '../../assets/tokens/frax.svg'
 import starknet from '../../assets/tokens/starknet.svg'
 import usdt from '../../assets/tokens/usdt.svg'
 import wbtc from '../../assets/tokens/wbtc.svg'
-import Planet from './Planet'
+import { Planet } from './Planet'
 
 type ExplorerData = {
     [key: string]: HubData[]
@@ -59,7 +59,7 @@ const data: ExplorerData = {
 
 const categories = Object.keys(data)
 
-const Explorer = () => {
+export const Explorer = () => {
   return (
     <Wrapper>
       <Container>
@@ -85,8 +85,6 @@ const Explorer = () => {
     </Wrapper>
   )
 }
-
-export default Explorer
 
 // Sizes
 const coreSize = 316

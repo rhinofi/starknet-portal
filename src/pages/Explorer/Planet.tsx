@@ -5,8 +5,8 @@ import styled from 'styled-components'
 import planet from '../../assets/backgrounds/planet.svg'
 import { Container } from '../../components/common/presentation/Container'
 import { HubData } from './Explorer'
-import Hub from './Hub'
-import NodeWithLink from './NodeWithLink'
+import { Hub } from './Hub'
+import { NodeWithLink } from './NodeWithLink'
 
 type Props = {
   title: string;
@@ -21,7 +21,7 @@ const dimensions = {
   linkOffset: -15
 }
 
-const Planet = ({ title, angle = 0, hubs }: Props) => {
+export const Planet = ({ title, angle = 0, hubs }: Props) => {
   return (
     <NodeWithLink angle={angle} dimensions={dimensions}>
       <PlanetContainer alignItems="center" justifyContent="center">
@@ -33,8 +33,6 @@ const Planet = ({ title, angle = 0, hubs }: Props) => {
     </NodeWithLink>
   )
 }
-
-export default Planet
 
 const PlanetContainer = styled(Container)`
   transform: scale(1.1);

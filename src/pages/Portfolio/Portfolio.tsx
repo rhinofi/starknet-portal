@@ -9,9 +9,9 @@ import { selectPrices } from '../../redux/slices/pricesSlice'
 import { selectBalances } from '../../redux/slices/walletSlice'
 import { Layers } from '../../utils/layer'
 import { calculateBalanceUsd, formatBalanceUsd } from '../../utils/price'
-import PortfolioColumns from './Portfolio.columns'
+import { PortfolioColumns } from './Portfolio.columns'
 
-const Portfolio: FunctionComponent = () => {
+export const Portfolio: FunctionComponent = () => {
   const balancesL1 = useAppSelector(selectBalances(Layers.L1))
   const balancesL2 = useAppSelector(selectBalances(Layers.L2))
   const prices = useAppSelector(selectPrices)
@@ -52,5 +52,3 @@ const Portfolio: FunctionComponent = () => {
     </Page>
   )
 }
-
-export default Portfolio

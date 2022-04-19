@@ -1,11 +1,11 @@
 import { useEffect } from 'react'
 import styled, { ThemeProvider } from 'styled-components'
 
-import GlobalModal from './components/common/interactive/Modal/GlobalModal'
-import Notifications from './components/common/presentation/Notifications/Notifications'
-import config from './config/config'
+import { GlobalModal } from './components/common/interactive/Modal/GlobalModal'
+import { Notifications } from './components/common/presentation/Notifications/Notifications'
+import { config } from './config/config'
 import { useInterval } from './hooks/useInterval'
-import Router from './pages/Router'
+import { Router } from './pages/Router'
 import { useAppDispatch, useAppSelector } from './redux/hooks'
 import { fetchPrices } from './redux/slices/pricesSlice'
 import { fetchBalancesL1, fetchBalancesL2, selectAddress } from './redux/slices/walletSlice'
@@ -13,7 +13,7 @@ import { listenToLogMessageToL2Event } from './services/eventManager'
 import theme from './theme'
 import { Layers } from './utils/layer'
 
-const App = () => {
+export const App = () => {
   const dispatch = useAppDispatch()
   const addressL1 = useAppSelector(selectAddress(Layers.L1))
   const addressL2 = useAppSelector(selectAddress(Layers.L2))
@@ -43,8 +43,6 @@ const App = () => {
     </ThemeProvider>
   )
 }
-
-export default App
 
 const Main = styled.div`
   background-color: ${({ theme }) => theme.background};

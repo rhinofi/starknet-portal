@@ -1,8 +1,8 @@
 import styled from 'styled-components'
 
 import { ProjectData } from './Explorer'
-import NodeWithLink from './NodeWithLink'
-import Project from './Project'
+import { NodeWithLink } from './NodeWithLink'
+import { Project } from './Project'
 
 type Props = {
   angle: number;
@@ -18,7 +18,7 @@ const dimensions = {
   linkLength: 60
 }
 
-const Hub = ({ angle = 0, cumulatedAngle, projects = [] }: Props) => {
+export const Hub = ({ angle = 0, cumulatedAngle, projects = [] }: Props) => {
   const angles = [-90, -30, 30, 90, 120]
 
   return (
@@ -32,8 +32,6 @@ const Hub = ({ angle = 0, cumulatedAngle, projects = [] }: Props) => {
     </NodeWithLink>
   )
 }
-
-export default Hub
 
 const HubCore = styled.div`
   width: ${dimensions.nodeSize}px;

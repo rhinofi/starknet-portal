@@ -3,9 +3,9 @@ import { FunctionComponent } from 'react'
 import styled from 'styled-components'
 
 import { Container } from '../../components/common/presentation/Container'
-import CircleInfo from './CircleInfo'
+import { CircleInfo } from './CircleInfo'
 
-const Onboarding: FunctionComponent = () => (
+export const Onboarding: FunctionComponent = () => (
   <Wrapper direction='column' alignItems='center'>
     <Title size='big'>Welcome to the StarkNet Portal</Title>
     <Title size='big'>Ethereum as it should be.</Title>
@@ -26,8 +26,6 @@ const Onboarding: FunctionComponent = () => (
     <CircleInfo />
   </Wrapper>
 )
-
-export default Onboarding
 
 const Wrapper = styled(Container)`
   max-width: 900px;

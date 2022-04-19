@@ -2,7 +2,7 @@ import { EventData } from 'web3-eth-contract'
 
 import { L1Tokens } from '../config/addresses/tokens/tokens.l1'
 import { L2Tokens } from '../config/addresses/tokens/tokens.l2'
-import config from '../config/config'
+import { config } from '../config/config'
 import { events } from '../constants/events'
 import { NOTIFICATIONS } from '../constants/notifications'
 import { transactionHashPrefix } from '../constants/transactionHashPrefix'

@@ -4,9 +4,9 @@ import styled from 'styled-components'
 
 import { ReactComponent as Logo } from '../../assets/icons/logo.svg'
 import { Layers } from '../../utils/layer'
-import WalletInfo from '../common/interactive/WalletInfo'
+import { WalletInfo } from '../common/interactive/WalletInfo'
 
-const TopNavigation: FunctionComponent = () => {
+export const TopNavigation: FunctionComponent = () => {
   return (
     <TopHeaderWrapper>
       <TopHeaderBackground>
@@ -16,17 +16,15 @@ const TopNavigation: FunctionComponent = () => {
               <Logo />
             </Link>
           </div>
-          <div>
+          <WalletsWrapper>
             <WalletInfo layer={Layers.L1} />
             <WalletInfo layer={Layers.L2} />
-          </div>
+          </WalletsWrapper>
         </TopHeaderContent>
       </TopHeaderBackground>
     </TopHeaderWrapper>
   )
 }
-
-export default TopNavigation
 
 const TopHeaderWrapper = styled.div`
   height: 56px;
@@ -82,5 +80,11 @@ const TopHeaderContent = styled.div`
     display: flex;
     align-items: center;
     justify-content: flex-end;
+  }
+`
+
+const WalletsWrapper = styled.div`
+  & > :first-child {
+    margin-right: 20px;
   }
 `

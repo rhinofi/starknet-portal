@@ -3,9 +3,9 @@ import styled from 'styled-components'
 
 import starkNetLogo from '../../assets/icons/starknet.svg'
 import { mainLinks } from './headerLinks'
-import LinkItem from './LinkItem'
+import { LinkItem } from './LinkItem'
 
-const MainHeader: FunctionComponent = () => {
+export const LeftNavigation: FunctionComponent = () => {
   return (
     <Header>
       <HeaderContent>
@@ -24,8 +24,6 @@ const MainHeader: FunctionComponent = () => {
     </Header>
   )
 }
-
-export default MainHeader
 
 const Header = styled.div`
   min-width: 188px;

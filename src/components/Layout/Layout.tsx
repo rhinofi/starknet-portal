@@ -1,11 +1,11 @@
-import React, { FunctionComponent } from 'react'
+import { FunctionComponent } from 'react'
 import { Outlet } from 'react-router-dom'
 import styled from 'styled-components'
 
-import LeftNavigation from './LeftNavigation'
-import TopNavigation from './TopNavigation'
+import { LeftNavigation } from './LeftNavigation'
+import { TopNavigation } from './TopNavigation'
 
-const Layout: FunctionComponent = () => {
+export const Layout: FunctionComponent = () => {
   return (
     <main>
       <TopNavigation />
@@ -18,8 +18,6 @@ const Layout: FunctionComponent = () => {
     </main>
   )
 }
-
-export default Layout
 
 const BottomLayout = styled.div`
   display: flex;

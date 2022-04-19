@@ -15,7 +15,7 @@ type Dimensions = {
     linkLength?: number
 }
 
-const NodeWithLink = ({ children, angle = 0, dimensions }: Props) => {
+export const NodeWithLink = ({ children, angle = 0, dimensions }: Props) => {
   const { coreSize, distanceFromCore } = dimensions
   const wrapperHeight = coreSize + 4 * distanceFromCore
 
@@ -26,8 +26,6 @@ const NodeWithLink = ({ children, angle = 0, dimensions }: Props) => {
     </Wrapper>
   )
 }
-
-export default NodeWithLink
 
 const Wrapper = styled.div<{ angle: number, wrapperHeight: number } & Dimensions>`
   position: absolute;

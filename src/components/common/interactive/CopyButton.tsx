@@ -11,7 +11,7 @@ interface CopyProps {
 
 type SuccessPosition = 'right' | 'bottom'
 
-const Copy: FunctionComponent<CopyProps> = ({ text, successPosition }) => {
+export const CopyButton: FunctionComponent<CopyProps> = ({ text, successPosition }) => {
   const [showSuccess, setShowSuccess] = useState(false)
 
   const copyToClipboard = () => {
@@ -46,8 +46,6 @@ const Copy: FunctionComponent<CopyProps> = ({ text, successPosition }) => {
     </CopyWrapper>
   )
 }
-
-export default Copy
 
 interface CopyWrapperProps {
   $active: boolean
