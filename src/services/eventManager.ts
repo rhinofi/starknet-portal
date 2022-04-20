@@ -7,7 +7,7 @@ import { events } from '../constants/events'
 import { NOTIFICATIONS } from '../constants/notifications'
 import { transactionHashPrefix } from '../constants/transactionHashPrefix'
 import { TransactionStatuses } from '../enums/TransactionStatuses'
-import { updateDeposit } from '../redux/slices/bridgeSlice'
+import { updateDeposit, updateWithdrawal } from '../redux/slices/bridgeSlice'
 import { NotificationStatuses } from '../redux/slices/notifications.types'
 import { addNotification, updateNotification } from '../redux/slices/notificationsSlice'
 import { AppDispatch } from '../store'
@@ -71,7 +71,7 @@ export const listenToLogMessageToL2Event = (dispatch: AppDispatch) => {
       }
     }))
 
-    waitForTransaction(txHashL2).then((res) => {
+    waitForTransaction(txHashL2, 'ACCEPTED_ON_L2').then((res) => {
       console.log('L2 transaction completed')
 
       // Update deposit L2 transaction
@@ -86,7 +86,7 @@ export const listenToLogMessageToL2Event = (dispatch: AppDispatch) => {
       // Update L2 notification
       dispatch(updateNotification({
         id: NOTIFICATIONS.DEPOSIT_L2,
-        title: 'Transfer completed.',
+        title: 'Deposit completed.',
         status: NotificationStatuses.SUCCESS
       }))
     })
@@ -94,4 +94,33 @@ export const listenToLogMessageToL2Event = (dispatch: AppDispatch) => {
 
   // Listen to the contract event with the params describes above
   listenContractEvent(starknetMessagingContract, events.LOG_MESSAGE_TO_L2, filters, handleEmittedEvent)
+}
+
+export const listenToLogWithdrawalEvent = (dispatch: AppDispatch) => {
+  // TODO: extend to all tokens
+  const starknetTokenBridgeContract = l1_getContract('0x160e7631f22035149A01420cADD1012267551181', ABIS.L1_ERC20_BRIDGE)
+
+  const filters = {}
+
+  const handleEmittedEvent = (error: Error, event: EventData) => {
+    console.log('LogWithdrawal event received', event, error)
+
+    // Update withdrawal L1 transaction
+    dispatch(updateWithdrawal({
+      transactions: {
+        [Layers.L1]: {
+          status: TransactionStatuses.COMPLETED
+        }
+      }
+    }))
+
+    // Update L1 notification
+    dispatch(updateNotification({
+      id: NOTIFICATIONS.WITHDRAWAL_L1,
+      title: 'Withdrawal completed',
+      status: NotificationStatuses.SUCCESS
+    }))
+  }
+
+  listenContractEvent(starknetTokenBridgeContract, events.LOG_WITHDRAWAL, filters, handleEmittedEvent)
 }

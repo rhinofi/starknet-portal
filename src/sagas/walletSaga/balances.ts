@@ -1,7 +1,6 @@
 import { put } from '@redux-saga/core/effects'
 import { PayloadAction } from '@reduxjs/toolkit'
 import { keyBy } from 'lodash'
-import { Abi } from 'starknet'
 import { AbiItem } from 'web3-utils'
 
 import { balanceOf, l1_ethBalanceOf } from '../../api/erc20'
@@ -31,7 +30,7 @@ const handleFetchBalances = async (account: string, isL1: boolean = true) => {
           )
           : l2_getContract(
             tokenConfig.tokenAddress[config.chainIdL2],
-                ABIS.L2_ERC20 as Abi[]
+            ABIS.L2_ERC20
           )
 
         balanceOfPromises.push(

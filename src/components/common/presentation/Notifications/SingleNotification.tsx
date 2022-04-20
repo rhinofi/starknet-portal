@@ -4,14 +4,20 @@ import styled, { css } from 'styled-components'
 import { ReactComponent as ErrorIcon } from '../../../../assets/icons/error.svg'
 import { ReactComponent as ExitIcon } from '../../../../assets/icons/exit.svg'
 import { useAppDispatch } from '../../../../redux/hooks'
-import { Notification, NotificationStatuses } from '../../../../redux/slices/notifications.types'
+import {
+  Notification,
+  NotificationStatuses
+} from '../../../../redux/slices/notifications.types'
 import { deleteNotification } from '../../../../redux/slices/notificationsSlice'
-import { getExplorerLinkL1 } from '../../../../utils/explorer'
+import {
+  getExplorerLinkL1,
+  getExplorerLinkL2
+} from '../../../../utils/explorer'
 import { Icon } from '../Icon'
 
 type Props = {
-    id: string
-    notification: Notification
+  id: string
+  notification: Notification
 }
 
 export const SingleNotification = ({ id, notification }: Props) => {
@@ -20,6 +26,7 @@ export const SingleNotification = ({ id, notification }: Props) => {
   const { title, status, meta } = notification
   const token = meta?.token
   const txHashL1 = meta?.txHashL1
+  const txHashL2 = meta?.txHashL2
   const description = meta?.description
 
   const isPending = status === NotificationStatuses.PENDING
@@ -34,32 +41,39 @@ export const SingleNotification = ({ id, notification }: Props) => {
           {txHashL1 && (
             <a
               href={getExplorerLinkL1(txHashL1, 'tx')}
-              target="_blank"
-              rel="noopener noreferrer"
+              target='_blank'
+              rel='noopener noreferrer'
             >
-              <Icon active id="external-link"/>
+              <Icon active id='external-link' />
+            </a>
+          )}
+          {txHashL2 && (
+            <a
+              href={getExplorerLinkL2(txHashL2, 'tx')}
+              target='_blank'
+              rel='noopener noreferrer'
+            >
+              <Icon active id='external-link' />
             </a>
           )}
         </Title>
         <TxStatusLabel>
-          {isPending && (
-            <Icon id="circle-o-notch" spinning />
-          )}
-          {isError && (<ErrorIcon/>)}
+          {isPending && <Icon id='circle-o-notch' spinning />}
+          {isError && <ErrorIcon />}
           {description}
         </TxStatusLabel>
       </Status>
 
       <Hide>
-        <ExitIcon onClick={() => dispatch(deleteNotification(id))}/>
+        <ExitIcon onClick={() => dispatch(deleteNotification(id))} />
       </Hide>
     </Wrapper>
   )
 }
 
 type WrapperProps = {
-    $isPending: boolean
-    $status: NotificationStatuses
+  $isPending: boolean
+  $status: NotificationStatuses
 }
 const Wrapper = styled.div<WrapperProps>`
   --angle: 0deg;
@@ -70,13 +84,17 @@ const Wrapper = styled.div<WrapperProps>`
   transition: transform 0.3s ease-in-out;
   border-radius: 14px;
 
-  animation: slide-in 0.15s ease-in-out ${({ $isPending }) => $isPending && ', move-bg 3s ease-in-out infinite'};
+  animation: slide-in 0.15s ease-in-out
+    ${({ $isPending }) => $isPending && ', move-bg 3s ease-in-out infinite'};
 
-  background-image: linear-gradient(180deg, #191F30 0%, #000000 100%), conic-gradient(from var(--angle) at 50% 50%,
-  #FAEE87,
-  #E84545,
-  #E870FB,
-  #B3FBF7);
+  background-image: linear-gradient(180deg, #191f30 0%, #000000 100%),
+    conic-gradient(
+      from var(--angle) at 50% 50%,
+      #faee87,
+      #e84545,
+      #e870fb,
+      #b3fbf7
+    );
   background-origin: border-box;
   background-clip: padding-box, border-box;
   border: 1px solid transparent;
@@ -93,12 +111,11 @@ const Wrapper = styled.div<WrapperProps>`
     margin: 0 auto;
   }
 
-
   @property --angle {
     syntax: '<angle>';
     inherits: false;
     initial-value: 0deg;
-  };
+  }
 
   @keyframes move-bg {
     to {
@@ -158,7 +175,8 @@ const Title = styled.div`
     align-items: center;
   }
 
-  & > div:first-child, & > img:first-child {
+  & > div:first-child,
+  & > img:first-child {
     margin-right: 8px;
   }
 
@@ -177,7 +195,8 @@ const TxStatusLabel = styled.div`
   display: flex;
   align-items: center;
 
-  i, svg {
+  i,
+  svg {
     margin-right: 8px;
     color: ${p => p.theme.text};
   }
@@ -206,7 +225,7 @@ const handleTxStatus = (status: NotificationStatuses) => {
   switch (status) {
   case NotificationStatuses.SUCCESS:
     return css`
-        background: linear-gradient(180deg, #191F30 0%, #000000 100%);
+        background: linear-gradient(180deg, #191f30 0%, #000000 100%);
         border: 1px solid ${p => p.theme.neutral};
 
         &::before {
@@ -215,7 +234,7 @@ const handleTxStatus = (status: NotificationStatuses) => {
       `
   case NotificationStatuses.ERROR:
     return css`
-        background: linear-gradient(180deg, #191F30 0%, #000000 100%);
+        background: linear-gradient(180deg, #191f30 0%, #000000 100%);
         border: 1px solid ${p => p.theme.accentOrange};
 
         &::before {
@@ -224,11 +243,14 @@ const handleTxStatus = (status: NotificationStatuses) => {
       `
   case NotificationStatuses.PENDING:
     return css`
-        background-image: linear-gradient(180deg, #191F30 0%, #000000 100%), conic-gradient(from var(--angle) at 50% 50%,
-        #FAEE87,
-        #E84545,
-        #E870FB,
-        #B3FBF7);
+        background-image: linear-gradient(180deg, #191f30 0%, #000000 100%),
+          conic-gradient(
+            from var(--angle) at 50% 50%,
+            #faee87,
+            #e84545,
+            #e870fb,
+            #b3fbf7
+          );
       `
   default:
   }

@@ -67,10 +67,7 @@ export const balanceOf = async (
       const balance = await l1_callContract(contract, 'balanceOf', [account])
       return parseFromDecimals(balance, decimals)
     } else {
-      const { balance } = await l2_callContract(contract, 'balanceOf', [
-        { account },
-        { blockIdentifier: 'pending' }
-      ])
+      const { balance } = await l2_callContract(contract, 'balanceOf', [account, { blockIdentifier: 'pending' }])
       return parseFromUint256(balance as any, decimals)
     }
   } catch (ex) {

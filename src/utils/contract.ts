@@ -1,9 +1,9 @@
+
 import { getStarknet } from '@argent/get-starknet'
 import {
   Abi,
-  Args,
-  compileCalldata,
   Contract as L2Contract,
+  RawArgs,
   stark
 } from 'starknet'
 import { Contract as L1Contract } from 'web3-eth-contract'
@@ -42,17 +42,15 @@ export const l1_sendTransaction = async (
   }
 }
 
-export const l2_getContract = (address: string, ABI: Abi[]) =>
-  // new L2Contract(ABI, address, getStarknet().provider)
-  new L2Contract(ABI, address)
+export const l2_getContract = (address: string, ABI: Abi) => new L2Contract(ABI, address)
 
 export const l2_callContract = async (
   contract: L2Contract,
   method: string,
-  args: Args[] = []
+  args: any[] = []
 ) => {
   try {
-    return await contract.call(method, ...args)
+    return await contract.call(method, args)
   } catch (ex) {
     return Promise.reject(ex)
   }
@@ -61,16 +59,16 @@ export const l2_callContract = async (
 export const l2_sendTransaction = async (
   contract: L2Contract,
   method: string,
-  args: Args = {}
+  args: RawArgs = {}
 ) => {
   try {
-    const methodSelector = stark.getSelectorFromName(method)
-    const compiledCalldata = compileCalldata(args)
-    return getStarknet().signer?.invokeFunction(
-      contract.connectedTo || '',
-      methodSelector,
-      compiledCalldata
-    )
+    const calldata = stark.compileCalldata(args)
+    const transaction = {
+      contractAddress: contract.address,
+      entrypoint: method,
+      calldata
+    }
+    return await getStarknet()?.account?.execute(transaction)
   } catch (ex) {
     return Promise.reject(ex)
   }

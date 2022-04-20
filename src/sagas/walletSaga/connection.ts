@@ -60,8 +60,8 @@ export function * handleConnectWalletL2 (): Generator<any, void, string[]> {
     status: NotificationStatuses.PENDING
   }))
   // check if wallet extension is installed and initialized. Shows a modal prompting the user to download ArgentX otherwise.
-  const starknet = getStarknet({ showModal: true })
-  const [userWalletContractAddress] = yield starknet.enable() // may throws when no extension is detected
+  const starknet = getStarknet()
+  const [userWalletContractAddress] = yield starknet.enable({ showModal: true }) // may throws when no extension is detected
   if (starknet.isConnected) {
     yield put(setAddressL2(userWalletContractAddress))
     yield put(toggleModal(MODALS.CONNECT_WALLET_L2))

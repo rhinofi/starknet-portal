@@ -53,7 +53,7 @@ export function * handleInitiateWithdraw (action: PayloadAction<WithdrawPayload>
     toAddress
   }))
 
-  waitForTransaction(transactionHash).then((res) => {
+  waitForTransaction(transactionHash, 'ACCEPTED_ON_L1').then((res) => {
     console.log('L2 transaction completed')
 
     // Update deposit L2 transaction

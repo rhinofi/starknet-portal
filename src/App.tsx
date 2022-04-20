@@ -9,7 +9,7 @@ import { Router } from './pages/Router'
 import { useAppDispatch, useAppSelector } from './redux/hooks'
 import { fetchPrices } from './redux/slices/pricesSlice'
 import { fetchBalancesL1, fetchBalancesL2, selectAddress } from './redux/slices/walletSlice'
-import { listenToLogMessageToL2Event } from './services/eventManager'
+import { listenToLogMessageToL2Event, listenToLogWithdrawalEvent } from './services/eventManager'
 import theme from './theme'
 import { Layers } from './utils/layer'
 
@@ -31,6 +31,7 @@ export const App = () => {
 
   useEffect(() => {
     listenToLogMessageToL2Event(dispatch)
+    listenToLogWithdrawalEvent(dispatch)
   }, [])
 
   return (

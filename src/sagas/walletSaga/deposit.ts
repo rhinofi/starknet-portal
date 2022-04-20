@@ -30,11 +30,7 @@ export function * handleDeposit (action: PayloadAction<DepositPayload>) {
       options: {
         from: fromAddress
       },
-      emitter: (error: any, transactionHash: string) => {
-        if (!error) {
-          console.log('Tx hash received', { transactionHash })
-        }
-      }
+      emitter: emitter(amount, token)
     })
   } else {
     const contract = l1_getContract(
@@ -50,31 +46,33 @@ export function * handleDeposit (action: PayloadAction<DepositPayload>) {
       options: {
         from: fromAddress
       },
-      emitter: (error: any, transactionHash: string) => {
-        if (!error) {
-          console.log('Tx hash received', { transactionHash })
-          store.dispatch(addNotification({
-            id: NOTIFICATIONS.DEPOSIT_L1,
-            title: 'Sending funds to L2 (1/2)',
-            status: NotificationStatuses.PENDING,
-            meta: {
-              txHashL1: transactionHash,
-              token,
-              description: `${amount} ${token}`
-            }
-          }))
-          store.dispatch(addDeposit({
-            transactions: {
-              [Layers.L1]: {
-                hash: transactionHash,
-                status: TransactionStatuses.PENDING
-              }
-            },
-            amount,
-            token
-          }))
-        }
-      }
+      emitter: emitter(amount, token)
     })
+  }
+}
+
+const emitter = (amount: string, token: string) => (error: any, transactionHash: string) => {
+  if (!error) {
+    console.log('Tx hash received', { transactionHash })
+    store.dispatch(addNotification({
+      id: NOTIFICATIONS.DEPOSIT_L1,
+      title: 'Sending funds to L2 (1/2)',
+      status: NotificationStatuses.PENDING,
+      meta: {
+        txHashL1: transactionHash,
+        token,
+        description: `${amount} ${token}`
+      }
+    }))
+    store.dispatch(addDeposit({
+      transactions: {
+        [Layers.L1]: {
+          hash: transactionHash,
+          status: TransactionStatuses.PENDING
+        }
+      },
+      amount,
+      token
+    }))
   }
 }
