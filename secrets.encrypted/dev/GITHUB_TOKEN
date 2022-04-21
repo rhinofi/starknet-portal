@@ -1,0 +1,19 @@
+{
+	"data": "ENC[AES256_GCM,data:x8qcgHNXIJkU22SHyidtaOAq3vP4KAnqF/itn/effKArUTUPqVoAjb4=,iv:LPt/yTByg9uEmmAOJvF0VEQBY3wm9mtZfW/QsGpKZx4=,tag:w7RBTDdmI3hYU0X6jVAhwA==,type:str]",
+	"sops": {
+		"kms": null,
+		"gcp_kms": [
+			{
+				"resource_id": "projects/dvf-deversifi-dev/locations/global/keyRings/sops/cryptoKeys/sops",
+				"created_at": "2019-12-27T05:15:18Z",
+				"enc": "CiQAggQWiDumn0GF2KEExw62qxgB0DZsAEzBLysas6W5kSH3k+0SSQAwZ6+1Wj9DcJe6jMzLRTtab2BlbmAk5mRt5tZFXJ6ON14L/BzDaaBpi6mQRlnmsVvp+ZrZCye5Ntx/zab5aLq1u0DSozbzgVA="
+			}
+		],
+		"azure_kv": null,
+		"lastmodified": "2019-12-27T23:53:40Z",
+		"mac": "ENC[AES256_GCM,data:eRVKK0lbUcf/Pms6eUrSl5Za5wXzFlalUSAdK7Zd8DHDuvLYP7js4/8mVmNKi3u1NLRQIDlaxLo2X1YgSR2Wt5K2EjRTcKem468Lr+JLaztVzB8JHDVRSbPzV5UIocfTG3buJb5uS+N0t2+1t7ITOONz2XmY4/eVM3UoEON2VTo=,iv:jXYJVYfAXr8ZN5eG4PobX2NEkfLAL/rLXu3LvDHi8og=,tag:Z3bsDbrbG/0O0CeRo6+F6A==,type:str]",
+		"pgp": null,
+		"unencrypted_suffix": "_unencrypted",
+		"version": "3.5.0"
+	}
+}

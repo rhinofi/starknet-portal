@@ -20,7 +20,7 @@ export function * handleConnectWalletL1 () {
   }))
 
   const web3Modal = new Web3Modal({
-    network: config.chain.toLowerCase(), // optional
+    network: config.chainName.toLowerCase(), // optional
     cacheProvider: false, // optional
     providerOptions: {} // required
   })

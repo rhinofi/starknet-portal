@@ -2,8 +2,6 @@
 
 # dependencies
 /node_modules
-/.pnp
-.pnp.js
 
 # testing
 /coverage
@@ -19,8 +17,18 @@
 .env.production.local
 .idea
 
+package-lock.json
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-.npmrc
+.idea/
+
+# used by build/deploy scripts to store transient state
+.build
+.cache*
+
+.eslintcache
+
+# IDE
+.vscode

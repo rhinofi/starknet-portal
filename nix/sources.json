@@ -1,0 +1,14 @@
+{
+    "launch-deversifi": {
+        "branch": "dev",
+        "description": "Instructions to deploy the required services for DeversiFi Exchange",
+        "homepage": "",
+        "owner": "deversifi",
+        "repo": "launch-deversifi",
+        "rev": "69cb7804a82083de25366686b675ed1ad42ae4f6",
+        "sha256": "171ckb53ssijxpwnj21m924hzmjs6rfcf3vsagjv66nbx85vvxwr",
+        "type": "tarball",
+        "url": "https://github.com/deversifi/launch-deversifi/archive/69cb7804a82083de25366686b675ed1ad42ae4f6.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    }
+}

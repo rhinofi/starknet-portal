@@ -1,7 +1,7 @@
 import { defaultProvider, hash, number } from 'starknet'
 import { Contract as L1Contract, EventData } from 'web3-eth-contract'
 
-import { ChainType } from '../enums/ChainType'
+import { config } from '../config/config'
 
 export const listenContractEvent = (
   contract: L1Contract,
@@ -29,7 +29,7 @@ export const getTransactionHash = (
     selector,
     calldataHash,
     0, // max_fee
-    ChainType.GOERLI.l2IdPrefix,
+    config.l2IdPrefix,
     ...additionalData
   ])
 }

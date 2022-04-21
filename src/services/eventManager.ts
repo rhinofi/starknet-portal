@@ -20,8 +20,8 @@ export const listenToLogMessageToL2Event = (dispatch: AppDispatch) => {
   const starknetMessagingContract = l1_getContract(config.starknetContract, ABIS.L1_MESSAGING)
 
   const filters = {
-    from_address: L1Tokens.map(token => token.bridgeAddress[config.chainIdL1]),
-    to_address: L2Tokens.map(token => token.bridgeAddress[config.chainIdL2])
+    from_address: L1Tokens.map(token => token.bridgeAddress[config.chainId]),
+    to_address: L2Tokens.map(token => token.bridgeAddress[config.chainId])
   }
 
   const handleEmittedEvent = (error: Error, event: EventData) => {

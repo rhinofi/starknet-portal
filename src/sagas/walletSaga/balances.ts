@@ -14,7 +14,7 @@ import { l1_getContract, l2_getContract } from '../../utils/contract'
 
 const handleFetchBalances = async (account: string, isL1: boolean = true) => {
   const tokens = isL1 ? L1Tokens : L2Tokens
-
+  console.log('config', config)
   if (!tokens || !account) {
     return []
   }
@@ -25,11 +25,11 @@ const handleFetchBalances = async (account: string, isL1: boolean = true) => {
       if (tokenConfig.tokenAddress) {
         const tokenContract = isL1
           ? l1_getContract(
-            tokenConfig.tokenAddress[config.chainIdL1],
+            tokenConfig.tokenAddress[config.chainId],
                 ABIS.L1_ERC20 as AbiItem[]
           )
           : l2_getContract(
-            tokenConfig.tokenAddress[config.chainIdL2],
+            tokenConfig.tokenAddress[config.chainId],
             ABIS.L2_ERC20
           )
 
