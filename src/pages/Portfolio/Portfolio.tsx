@@ -1,59 +1,54 @@
-import { FunctionComponent, useState } from 'react'
-import { Title2, Title3 } from '../../components/common/presentation/Text'
+import { Spacing, Table, Text, Title } from '@deversifi/dvf-shared-ui'
+import { TypographySizes } from '@deversifi/dvf-shared-ui/lib/types/formats'
+import sumBy from 'lodash/sumBy'
+import { FunctionComponent, useMemo } from 'react'
+
 import { Page } from '../../components/common/presentation/Page'
-import { Border } from '../../components/common/presentation/Border'
-import Spacing from '../../components/common/presentation/Spacing'
-import Table, { Column } from '../../components/common/presentation/Table/Table'
+import { useAppSelector } from '../../redux/hooks'
+import { selectPrices } from '../../redux/slices/pricesSlice'
+import { selectBalances } from '../../redux/slices/walletSlice'
+import { Layers } from '../../utils/layer'
+import { calculateBalanceUsd, formatBalanceUsd } from '../../utils/price'
+import { PortfolioColumns } from './Portfolio.columns'
 
-const columns: Column[] = [
-  {
-    key: 'token',
-    label: 'Token',
-    align: 'left'
-  },
-  {
-    key: 'price',
-    label: 'Price 24h',
-    align: 'center'
-  },
-  {
-    key: 'balance',
-    label: 'Total Balance',
-    align: 'right'
-  }
-]
+export const Portfolio: FunctionComponent = () => {
+  const balancesL1 = useAppSelector(selectBalances(Layers.L1))
+  const balancesL2 = useAppSelector(selectBalances(Layers.L2))
+  const prices = useAppSelector(selectPrices)
 
-const data = [
-  {
-    token: 'ETH',
-    price: 200,
-    balance: 2323.232
-  },
-  {
-    token: 'BTC',
-    price: 41234,
-    balance: 0.33
-  },
-  {
-    token: 'ETH',
-    price: 200,
-    balance: 2323.232
-  }
-]
+  const data = useMemo(() => Object.entries(balancesL1 || {}).map(([key, value]) => {
+    const token = key
+    const price = prices[token]
+    const balanceL1 = value.balance
+    const balanceUsdL1 = calculateBalanceUsd(balanceL1, price)
+    const balanceL2 = balancesL2?.[key]?.balance || 0
+    const balanceUsdL2 = calculateBalanceUsd(balanceL2, price)
+    const totalBalance = balanceL1 + balanceL2
+    const totalBalanceUsd = calculateBalanceUsd(totalBalance, price)
 
-const Portfolio: FunctionComponent = () => {
-  const [usdPortfolioValue /*, setUsdPortfolioValue */] = useState(0)
+    return ({
+      token: key,
+      balanceL1,
+      balanceL2,
+      balanceUsdL1,
+      balanceUsdL2,
+      totalBalance,
+      totalBalanceUsd,
+      price
+    })
+  }), [balancesL1, balancesL2, prices])
+
+  const portfolioValueUsd = useMemo(() => sumBy(data, 'totalBalanceUsd'), [data])
 
   return (
     <Page>
-      <Title2>Portfolio</Title2>
-      <Title3>${usdPortfolioValue}</Title3>
-      <Spacing vertical={24} />
-      <Border>
-        <Table data={data} columns={columns} />
-      </Border>
+      <Title size='big'>Portfolio</Title>
+      <Text size={TypographySizes.Large} transparency={false}>{formatBalanceUsd(portfolioValueUsd)}</Text>
+      <Spacing size='24' />
+      <Table
+        columns={PortfolioColumns}
+        data={data}
+      />
     </Page>
   )
 }
-
-export default Portfolio

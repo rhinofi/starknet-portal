@@ -1,0 +1,15 @@
+# Ignore everything
+**
+
+# Allow files and directories
+!config
+!nginx.conf
+!package.json
+!tsconfig.json
+!public
+!scripts
+!src
+!yarn.lock
+!.eslintrc
+!.yarnrc
+!.npmrc

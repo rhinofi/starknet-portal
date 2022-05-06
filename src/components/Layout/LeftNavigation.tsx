@@ -1,30 +1,29 @@
-import React, {FunctionComponent} from 'react'
-import {mainLinks} from './headerLinks'
+import { FunctionComponent } from 'react'
 import styled from 'styled-components'
-import LinkItem from './LinkItem'
+
 import starkNetLogo from '../../assets/icons/starknet.svg'
+import { mainLinks } from './headerLinks'
+import { LinkItem } from './LinkItem'
 
-const MainHeader: FunctionComponent = () => {
-    return (
-        <Header>
-            <HeaderContent>
-                <div>
-                    <img src={starkNetLogo} alt="StarkNet Logo" />
-                    <HeaderSection>
-                        {mainLinks.map((link) => (
-                            <LinkItem
-                                {...link}
-                                key={link.tab}
-                            />
-                        ))}
-                    </HeaderSection>
-                </div>
-            </HeaderContent>
-        </Header>
-    )
+export const LeftNavigation: FunctionComponent = () => {
+  return (
+    <Header>
+      <HeaderContent>
+        <div>
+          <img src={starkNetLogo} alt="StarkNet Logo" />
+          <HeaderSection>
+            {mainLinks.map((link) => (
+              <LinkItem
+                {...link}
+                key={link.tab}
+              />
+            ))}
+          </HeaderSection>
+        </div>
+      </HeaderContent>
+    </Header>
+  )
 }
-
-export default MainHeader
 
 const Header = styled.div`
   min-width: 188px;
@@ -33,15 +32,15 @@ const Header = styled.div`
 
 const HeaderContent = styled.div`
   position: fixed;
-  z-index: 1000;
   height: calc(100vh - 56px);
   border-right: 1px solid #15212F;
-  background: #000000;
+  background: linear-gradient(180deg, #191F30 0%, #000000 100%);
   backdrop-filter: blur(30px);
   padding-top: 20px;
   box-sizing: border-box;
   width: 188px;
-
+  z-index: 9999;
+  
   & > div {
     height: 100%;
     display: flex;

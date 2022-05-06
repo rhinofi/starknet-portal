@@ -1,7 +1,9 @@
+import { Text } from '@deversifi/dvf-shared-ui'
+import { TypographySizes } from '@deversifi/dvf-shared-ui/lib/types/formats'
 import { FunctionComponent } from 'react'
 import styled from 'styled-components'
+
 import { Container } from '../../components/common/presentation/Container'
-import { Text, Title3 } from '../../components/common/presentation/Text'
 
 interface CircleInfoDetailsProps {
   visible: boolean
@@ -9,7 +11,7 @@ interface CircleInfoDetailsProps {
   text: string
 }
 
-const CircleInfoDetails: FunctionComponent<CircleInfoDetailsProps> = ({
+export const CircleInfoDetails: FunctionComponent<CircleInfoDetailsProps> = ({
   visible = true,
   title = '',
   text = ''
@@ -17,14 +19,12 @@ const CircleInfoDetails: FunctionComponent<CircleInfoDetailsProps> = ({
   <Wrapper direction='column'>
     {visible && (
       <>
-        <Title3>{title}</Title3>
+        <Text size={TypographySizes.Big}>{title}</Text>
         <Text>{text}</Text>
       </>
     )}
   </Wrapper>
 )
-
-export default CircleInfoDetails
 
 const Wrapper = styled(Container)`
   width: 290px;

@@ -1,59 +1,101 @@
+import { Button } from '@deversifi/dvf-shared-ui'
+import { useMemo } from 'react'
 import styled from 'styled-components'
-import tokens from '../../../assets/tokens'
+
+import { tokens } from '../../../assets/tokens'
+import { MODALS } from '../../../constants/modals'
+import { useAppDispatch, useAppSelector } from '../../../redux/hooks'
+import { toggleModal } from '../../../redux/slices/modalSlice'
+import {
+  disconnectWalletL1,
+  disconnectWalletL2,
+  selectAddress
+} from '../../../redux/slices/walletSlice'
 import { shortenAddress } from '../../../utils/address'
-import { Button, TextButton } from '../../common/interactive/Button'
-import CopyButton from '../../common/interactive/CopyButton'
-import LabelCard from '../../common/presentation/LabelCard'
+import { getExplorerLinkL1, getExplorerLinkL2 } from '../../../utils/explorer'
+import { Layers, layerSwitch } from '../../../utils/layer'
+import { CopyButton } from '../../common/interactive/CopyButton'
 import { Container } from '../presentation/Container'
 
 type Props = {
-  address: string
-  icon: string
-  explorerUrl: string
-  connectWallet: () => void
-  disconnectWallet: () => void
-}
+  layer: Layers;
+};
 
-const WalletInfo = ({
-  address,
-  icon,
-  explorerUrl,
-  connectWallet,
-  disconnectWallet
-}: Props) => {
+export const WalletInfo = ({ layer }: Props) => {
+  const address = useAppSelector(selectAddress(layer))
+
+  const dispatch = useAppDispatch()
+
+  const explorerUrl = useMemo(
+    () => layerSwitch(layer, getExplorerLinkL1(address, 'address'), getExplorerLinkL2(address, 'address')),
+    [address, layer]
+  )
+
+  const icon = layerSwitch(layer, tokens.ethereum, tokens.starknet)
+
+  const connectWallet = () => dispatch(toggleModal({ activeModal: layer === Layers.L1 ? MODALS.CONNECT_WALLET_L1 : MODALS.CONNECT_WALLET_L2 }))
+
+  const disconnectWallet = () => dispatch(layer === Layers.L1 ? disconnectWalletL1() : disconnectWalletL2())
+
   return (
-    <LabelCard>
-      <IconWrapper alignItems='center' justifyContent='center'>
-        <img src={tokens[icon]} alt='layer_icon' />
-      </IconWrapper>
-      {!address ? (
-        <Button onClick={connectWallet}>Connect wallet</Button>
-      ) : (
-        <>
-          <ExplorerLink
-            href={explorerUrl}
-            target='_blank'
-            rel='noopener noreferrer'
-          >
-            {shortenAddress(address)}
-          </ExplorerLink>
-          <CopyButton text={address} successPosition='bottom' />
+    <>
+      {!address
+        ? (
+          <Button size="38px" onClick={connectWallet}>
+            <ButtonContent
+              direction="row"
+              alignItems="center"
+              justifyContent="flex-start"
+            >
+              <img src={icon} alt="layer_icon" />
+            Connect wallet
+            </ButtonContent>
+          </Button>
+        )
+        : (
+          <CustomButton>
+            <img src={icon} alt="layer_icon" />
+            <ExplorerLink
+              href={explorerUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {shortenAddress(address)}
+            </ExplorerLink>
+            <CopyButton text={address} successPosition="bottom" />
           &nbsp;
-          <TextButton onClick={disconnectWallet}>Disconnect</TextButton>
-        </>
-      )}
-    </LabelCard>
+            <DisconnectButton size="16" onClick={disconnectWallet}>
+            Disconnect
+            </DisconnectButton>
+          </CustomButton>
+        )}
+    </>
   )
 }
 
-export default WalletInfo
+const ButtonContent = styled(Container)`
+  img {
+    margin-right: 10px;
+  }
+`
 
-const IconWrapper = styled(Container)`
-  margin-right: 10px;
+const CustomButton = styled.div`
+  cursor: default;
+  display: flex;
+  direction: row;
+  align-items: center;
+  & img {
+    margin-right: 10px;
+  }
 `
 
 const ExplorerLink = styled.a`
-  color: #fff;
   margin-right: 12px;
-  font-family: ${({ theme }) => theme.mainFont};
+  font-family: ${({ theme }) => theme.defaultFont};
+  font-weight: 400;
+  color: ${({ theme }) => theme.textSecondary};
+`
+
+const DisconnectButton = styled(Button)`
+  margin-left: 10px;
 `

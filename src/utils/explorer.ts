@@ -1,10 +1,7 @@
-import config from '../config/config'
-import { ChainType } from '../enums/ChainType'
+import { config } from '../config/config'
 
 const getExplorerLink = (isL1: boolean) => (address: string, type: string) => {
-  return `${
-    ChainType[config.chain][isL1 ? 'blockExplorerUrl' : 'l2BlockExplorerUrl']
-  }/${type}/${address}`
+  return `${isL1 ? config.l1BlockExplorerUrl : config.l2BlockExplorerUrl}/${type}/${address}`
 }
 
 export const getExplorerLinkL1 = getExplorerLink(true)

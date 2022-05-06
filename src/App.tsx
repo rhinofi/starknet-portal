@@ -1,44 +1,59 @@
 import { useEffect } from 'react'
+import styled, { ThemeProvider } from 'styled-components'
+
+import { GlobalModal } from './components/common/interactive/Modal/GlobalModal'
+import { Notifications } from './components/common/presentation/Notifications/Notifications'
+import { config } from './config/config'
 import { useInterval } from './hooks/useInterval'
-import Router from './pages/Router'
+import { Router } from './pages/Router'
 import { useAppDispatch, useAppSelector } from './redux/hooks'
-import {
-  selectAddressL1,
-  selectAddressL2,
-  setBalancesL1,
-  setBalancesL2
-} from './redux/slices/userSlice'
-import { getTokenBalances } from './services/balances'
+import { fetchPrices } from './redux/slices/pricesSlice'
+import { fetchBalancesL1, fetchBalancesL2, selectAddress } from './redux/slices/walletSlice'
+import { listenToLogMessageToL2Event, listenToLogWithdrawalEvent } from './services/eventManager'
+import theme from './theme'
+import { Layers } from './utils/layer'
 
-const App = () => {
+export const App = () => {
   const dispatch = useAppDispatch()
-  const addressL1 = useAppSelector(selectAddressL1)
-  const addressL2 = useAppSelector(selectAddressL2)
+  const addressL1 = useAppSelector(selectAddress(Layers.L1))
+  const addressL2 = useAppSelector(selectAddress(Layers.L2))
+
+  const fetchTokenBalancesL1 = () => { if (addressL1) dispatch(fetchBalancesL1({ address: addressL1 })) }
+  const fetchTokenBalancesL2 = () => { if (addressL2) dispatch(fetchBalancesL2({ address: addressL2 })) }
+
+  useEffect(fetchTokenBalancesL1, [addressL1])
+  useEffect(fetchTokenBalancesL2, [addressL2])
+
+  useInterval(fetchTokenBalancesL1, config.intervals.fetchBalancesInterval)
+  useInterval(fetchTokenBalancesL2, config.intervals.fetchBalancesInterval)
+
+  useInterval(() => dispatch(fetchPrices()), config.intervals.fetchPricesInterval, true)
 
   useEffect(() => {
-    fetchTokenBalancesL1()
-    // eslint-disable-next-line
-  }, [addressL1])
+    listenToLogMessageToL2Event(dispatch)
+    listenToLogWithdrawalEvent(dispatch)
+  }, [])
 
-  useEffect(() => {
-    fetchTokenBalancesL2()
-    // eslint-disable-next-line
-  }, [addressL2])
-
-  const fetchTokenBalancesL1 = async () => {
-    const l1Balances = await getTokenBalances(addressL1, true)
-    dispatch(setBalancesL1(l1Balances))
-  }
-
-  const fetchTokenBalancesL2 = async () => {
-    const l2Balances = await getTokenBalances(addressL2, false)
-    dispatch(setBalancesL2(l2Balances))
-  }
-
-  useInterval(fetchTokenBalancesL1, 10000)
-  useInterval(fetchTokenBalancesL2, 10000)
-
-  return <Router />
+  return (
+    <ThemeProvider theme={theme.dark}>
+      <Main>
+        <Router />
+        <GlobalModal />
+        <Notifications />
+      </Main>
+    </ThemeProvider>
+  )
 }
 
-export default App
+const Main = styled.div`
+  background-color: ${({ theme }) => theme.background};
+  font-family: ${({ theme }) => theme.mainFont};
+  color: ${({ theme }) => theme.neutral300};
+  overflow: auto;
+  min-width: 1280px;
+  min-height: 100vh;
+
+  button {
+    font-family: ${props => props.theme.mainFont};
+  }
+`

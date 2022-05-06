@@ -1,8 +1,8 @@
+import { Text } from '@deversifi/dvf-shared-ui'
 import { FunctionComponent, useState } from 'react'
 import styled from 'styled-components'
 
 import { ReactComponent as CopyIcon } from '../../../assets/icons/copy.svg'
-import { Text } from '../presentation/Text'
 
 interface CopyProps {
   text: string
@@ -11,7 +11,7 @@ interface CopyProps {
 
 type SuccessPosition = 'right' | 'bottom'
 
-const Copy: FunctionComponent<CopyProps> = ({ text, successPosition }) => {
+export const CopyButton: FunctionComponent<CopyProps> = ({ text, successPosition }) => {
   const [showSuccess, setShowSuccess] = useState(false)
 
   const copyToClipboard = () => {
@@ -47,8 +47,6 @@ const Copy: FunctionComponent<CopyProps> = ({ text, successPosition }) => {
   )
 }
 
-export default Copy
-
 interface CopyWrapperProps {
   $active: boolean
 }
@@ -57,7 +55,7 @@ const CopyWrapper = styled.div<CopyWrapperProps>`
   position: relative;
   display: inline-block;
   cursor: pointer;
-  height: 16px;
+  height: 18px;
 
   svg {
     transition: opacity 0.1s linear;

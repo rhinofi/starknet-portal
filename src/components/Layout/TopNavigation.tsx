@@ -1,32 +1,30 @@
-import React, {FunctionComponent} from 'react'
+import { FunctionComponent } from 'react'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import {ReactComponent as Logo} from '../../assets/icons/logo.svg'
-import {Link} from 'react-router-dom'
-import ConnectArgentWallet from "../ConnectArgentWallet/ConnectArgentWallet";
-import ConnectEthereumWallet from '../ConnectEthereumWallet/ConnectEthereumWallet';
 
-const TopNavigation: FunctionComponent = () => {
+import { ReactComponent as Logo } from '../../assets/icons/logo.svg'
+import { Layers } from '../../utils/layer'
+import { WalletInfo } from '../common/interactive/WalletInfo'
+
+export const TopNavigation: FunctionComponent = () => {
   return (
-        <TopHeaderWrapper>
-            <TopHeaderBackground>
-                <TopHeaderContent>
-                    <div>
-                        <Link to="/">
-                            <Logo />
-                        </Link>
-                    </div>
-                    <div>
-                        <ConnectEthereumWallet />
-                        <Separator />
-                        <ConnectArgentWallet />
-                    </div>
-                </TopHeaderContent>
-            </TopHeaderBackground>
-        </TopHeaderWrapper>
-    )
+    <TopHeaderWrapper>
+      <TopHeaderBackground>
+        <TopHeaderContent>
+          <div>
+            <Link to='/'>
+              <Logo />
+            </Link>
+          </div>
+          <WalletsWrapper>
+            <WalletInfo layer={Layers.L1} />
+            <WalletInfo layer={Layers.L2} />
+          </WalletsWrapper>
+        </TopHeaderContent>
+      </TopHeaderBackground>
+    </TopHeaderWrapper>
+  )
 }
-
-export default TopNavigation
 
 const TopHeaderWrapper = styled.div`
   height: 56px;
@@ -37,14 +35,14 @@ const TopHeaderBackground = styled.div`
   position: fixed;
   height: 56px;
   width: 100%;
-  z-index: 1000;
+  z-index: 10000;
 `
 
 const TopHeaderContent = styled.div`
   height: 100%;
   width: 100%;
   position: absolute;
-  background-color: ${({theme}) => theme.background};
+  background-color: ${({ theme }) => theme.secondaryBackground};
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -57,12 +55,20 @@ const TopHeaderContent = styled.div`
     right: 0;
     left: 0;
     margin: auto;
-    content: " ";
+    content: ' ';
     display: block;
     height: 100%;
     width: calc(100% - 8px);
     z-index: -1;
-    background: conic-gradient(from 86.31deg at 46.18% 51.15%, #97E1D4 -54.94deg, #6284FF 28.29deg, #FF72B6 157.82deg, #D9AFD9 220.83deg, #97E1D4 305.06deg, #6284FF 388.29deg);
+    background: conic-gradient(
+      from 86.31deg at 46.18% 51.15%,
+      #97e1d4 -54.94deg,
+      #6284ff 28.29deg,
+      #ff72b6 157.82deg,
+      #d9afd9 220.83deg,
+      #97e1d4 305.06deg,
+      #6284ff 388.29deg
+    );
     filter: blur(10px);
   }
 
@@ -77,9 +83,8 @@ const TopHeaderContent = styled.div`
   }
 `
 
-const Separator = styled.div`
-  width: 1px;
-  height: 16px;
-  margin: 0 14px;
-  background-color: ${props => props.theme.neutral200};
+const WalletsWrapper = styled.div`
+  & > :first-child {
+    margin-right: 20px;
+  }
 `

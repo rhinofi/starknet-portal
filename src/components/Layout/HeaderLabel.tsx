@@ -1,17 +1,15 @@
-import React, {FunctionComponent} from 'react'
+import React, { FunctionComponent } from 'react'
 import styled from 'styled-components'
 
 interface HeaderLabelProps {
     tab: string;
 }
 
-const HeaderLabel: FunctionComponent<HeaderLabelProps> = ({tab = ''}) => (
-    <Label>
-        {tab}
-    </Label>
+export const HeaderLabel: FunctionComponent<HeaderLabelProps> = ({ tab = '' }) => (
+  <Label>
+    {tab}
+  </Label>
 )
-
-export default HeaderLabel
 
 const Label = styled.div`
   display: flex;
@@ -26,5 +24,5 @@ const Label = styled.div`
   bottom: 0;
   margin: auto auto;
   left: 56px;
-  font-family: ${({theme}) => theme.mainFont};
+  font-family: ${({ theme }) => theme.mainFont};
 `

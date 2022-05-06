@@ -1,5 +1,6 @@
 import { FunctionComponent, useState } from 'react'
 import styled from 'styled-components'
+
 import buttonBackground from '../../assets/backgrounds/button-bg.svg'
 import buttonBackgroundActive from '../../assets/backgrounds/button-bg-active.svg'
 
@@ -18,7 +19,7 @@ interface CurvedButtonProps {
   setActive: Function
 }
 
-const CurvedButton: FunctionComponent<CurvedButtonProps> = ({
+export const CurvedButton: FunctionComponent<CurvedButtonProps> = ({
   text = '',
   arc = 100,
   radius = 100,
@@ -33,7 +34,7 @@ const CurvedButton: FunctionComponent<CurvedButtonProps> = ({
     setIsHovered(true)
     setActive(false)
   }
-  
+
   const onMouseLeave = () => {
     setIsHovered(false)
     setActive(true)
@@ -73,8 +74,6 @@ const CurvedButton: FunctionComponent<CurvedButtonProps> = ({
     </Wrapper>
   )
 }
-
-export default CurvedButton
 
 const Wrapper = styled.div``
 

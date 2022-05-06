@@ -1,4 +1,5 @@
 import { Contract as L1Contract } from 'web3-eth-contract'
+
 import {
   l1_callContract,
   l1_sendTransaction,
@@ -66,9 +67,7 @@ export const balanceOf = async (
       const balance = await l1_callContract(contract, 'balanceOf', [account])
       return parseFromDecimals(balance, decimals)
     } else {
-      const { balance } = await l2_callContract(contract, 'balanceOf', [
-        { account }
-      ])
+      const { balance } = await l2_callContract(contract, 'balanceOf', [account, { blockIdentifier: 'pending' }])
       return parseFromUint256(balance as any, decimals)
     }
   } catch (ex) {
