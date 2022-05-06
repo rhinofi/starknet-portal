@@ -14,7 +14,7 @@ import { l1_getContract, l2_getContract } from '../../utils/contract'
 
 const handleFetchBalances = async (account: string, isL1: boolean = true) => {
   const tokens = isL1 ? L1Tokens : L2Tokens
-  console.log('config', config)
+
   if (!tokens || !account) {
     return []
   }
@@ -49,7 +49,7 @@ const handleFetchBalances = async (account: string, isL1: boolean = true) => {
       }
     })
     const balanceOfResults = await Promise.allSettled(balanceOfPromises)
-
+    console.log(balanceOfResults)
     return tokens.map((token, index) => ({
       symbol: token.symbol,
       name: token.name,

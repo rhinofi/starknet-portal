@@ -101,7 +101,7 @@ export const maxDeposit = async ({ decimals, contract }: MaxDepositProps) => {
   }
 }
 
-interface InitiateWithdraw {
+type InitiateWithdraw = {
   recipient: string
   amount: string
   decimals: number

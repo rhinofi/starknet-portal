@@ -1,4 +1,4 @@
-FROM node:14.18.0 as build
+FROM node:16.14.0 as build
 # ^-- using full node image for build, yarn install fails on alpine due
 #     to missing deps.
 
@@ -29,10 +29,9 @@ RUN --mount=type=secret,id=GITHUB_TOKEN \
 
 COPY src src
 COPY public public
-# COPY config config
 COPY .eslintrc .eslintrc
 
-RUN yarn build $ENV_NAME
+RUN REACT_APP_ENV=$ENV_NAME yarn build
 
 
 # This will be the output image of `docker build` if --target in not specified.

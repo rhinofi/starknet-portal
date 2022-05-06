@@ -33,7 +33,7 @@ export const WalletInfo = ({ layer }: Props) => {
 
   const icon = layerSwitch(layer, tokens.ethereum, tokens.starknet)
 
-  const connectWallet = () => dispatch(toggleModal(layer === Layers.L1 ? MODALS.CONNECT_WALLET_L1 : MODALS.CONNECT_WALLET_L2))
+  const connectWallet = () => dispatch(toggleModal({ activeModal: layer === Layers.L1 ? MODALS.CONNECT_WALLET_L1 : MODALS.CONNECT_WALLET_L2 }))
 
   const disconnectWallet = () => dispatch(layer === Layers.L1 ? disconnectWalletL1() : disconnectWalletL2())
 

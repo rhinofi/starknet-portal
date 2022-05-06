@@ -3,7 +3,6 @@ import { getStarknet } from '@argent/get-starknet'
 import {
   Abi,
   Contract as L2Contract,
-  RawArgs,
   stark
 } from 'starknet'
 import { Contract as L1Contract } from 'web3-eth-contract'
@@ -59,15 +58,17 @@ export const l2_callContract = async (
 export const l2_sendTransaction = async (
   contract: L2Contract,
   method: string,
-  args: RawArgs = {}
+  args: any = {}
 ) => {
   try {
+    console.log(args)
     const calldata = stark.compileCalldata(args)
     const transaction = {
       contractAddress: contract.address,
       entrypoint: method,
       calldata
     }
+    console.log(transaction)
     return await getStarknet()?.account?.execute(transaction)
   } catch (ex) {
     return Promise.reject(ex)

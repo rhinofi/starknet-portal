@@ -1,9 +1,10 @@
 import { PayloadAction } from '@reduxjs/toolkit'
 
 import { deposit, depositEth } from '../../api/bridge'
+import { config } from '../../config/config'
 import { NOTIFICATIONS } from '../../constants/notifications'
 import { TransactionStatuses } from '../../enums/TransactionStatuses'
-import { addDeposit } from '../../redux/slices/bridgeSlice'
+import { addTransfer } from '../../redux/slices/bridgeSlice'
 import { NotificationStatuses } from '../../redux/slices/notifications.types'
 import { addNotification } from '../../redux/slices/notificationsSlice'
 import { DepositPayload } from '../../redux/slices/walletSlice.types'
@@ -12,13 +13,12 @@ import { ABIS } from '../../utils/abis'
 import { l1_getContract } from '../../utils/contract'
 import { Layers } from '../../utils/layer'
 import { getTokenDetails } from '../../utils/tokens'
-import { chainId } from './approval'
 
 export function * handleDeposit (action: PayloadAction<DepositPayload>) {
   const { fromAddress, toAddress, amount, token } = action.payload
 
   const tokenDetails = getTokenDetails(Layers.L1, token)
-  const tokenBridgeAddress = tokenDetails.bridgeAddress[chainId]
+  const tokenBridgeAddress = tokenDetails.bridgeAddress[config.chainId]
 
   if (token === 'ETH') {
     const contract = l1_getContract(tokenBridgeAddress, ABIS.L1_ETH_BRIDGE)
@@ -64,7 +64,9 @@ const emitter = (amount: string, token: string) => (error: any, transactionHash:
         description: `${amount} ${token}`
       }
     }))
-    store.dispatch(addDeposit({
+    store.dispatch(addTransfer({
+      type: 'deposit',
+      timestamp: new Date(),
       transactions: {
         [Layers.L1]: {
           hash: transactionHash,

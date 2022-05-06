@@ -1,4 +1,5 @@
 import { createAction, createSlice, PayloadAction } from '@reduxjs/toolkit'
+import merge from 'lodash/merge'
 
 import { RootState } from '../../store'
 import {
@@ -26,19 +27,16 @@ import {
   WithdrawPayload
 } from './walletSlice.types'
 
+const layerInitialState = {
+  address: '',
+  web3Modal: undefined,
+  allowances: {},
+  balances: {}
+}
+
 const initialState: WalletState = {
-  [Layers.L1]: {
-    address: '',
-    web3Modal: null,
-    allowances: {},
-    balances: {}
-  },
-  [Layers.L2]: {
-    address: '',
-    web3Modal: null,
-    allowances: {},
-    balances: {}
-  }
+  [Layers.L1]: layerInitialState,
+  [Layers.L2]: layerInitialState
 }
 
 export const walletSlice = createSlice({
@@ -64,10 +62,9 @@ export const walletSlice = createSlice({
       state[Layers.L2] = initialState[Layers.L2]
     },
     setAllowance: (state, action: PayloadAction<SetAllowancePayload>) => {
-      // TODO: keep other allowances
-      state[Layers.L1].allowances = {
+      state[Layers.L1].allowances = merge(state[Layers.L1].allowances, {
         [action.payload.token]: action.payload.allowance
-      }
+      })
     },
     setBalancesL1: (state, action: PayloadAction<SetBalancesL1Payload>) => {
       state[Layers.L1].balances = action.payload.balances

@@ -1,22 +1,18 @@
 import { Button } from '@deversifi/dvf-shared-ui'
 import { useMemo } from 'react'
-import styled from 'styled-components'
 
-import arrowDown from '../../assets/icons/arrow-down.svg'
-import { config } from '../../config/config'
 import { MODALS } from '../../constants/modals'
 import { useAppDispatch, useAppSelector } from '../../redux/hooks'
-import { selectWithdrawal } from '../../redux/slices/bridgeSlice'
 import { toggleModal } from '../../redux/slices/modalSlice'
 import {
   approveToken,
-  claimWithdraw,
   deposit,
   initiateWithdraw,
   selectAllowances
 } from '../../redux/slices/walletSlice'
 import { Layers, layerSwitch } from '../../utils/layer'
-import { FormValues } from './BridgeFundsWidget'
+import { requiresAllowance } from '../../utils/tokens'
+import { FormValues } from './BridgeFunds'
 
 type Props = {
   layer: Layers
@@ -25,6 +21,7 @@ type Props = {
   addressL2: string
   formValues: FormValues
   isFormValid: boolean
+  resetAmount: () => void
 }
 
 export const BridgeFundsWidgetCTA = ({
@@ -33,22 +30,20 @@ export const BridgeFundsWidgetCTA = ({
   addressL1,
   addressL2,
   formValues,
-  isFormValid
+  isFormValid,
+  resetAmount = () => {}
 }: Props) => {
   const dispatch = useAppDispatch()
 
   const allowancesL1 = useAppSelector(selectAllowances(Layers.L1))
-  const withdrawal = useAppSelector(selectWithdrawal)
 
-  const { token } = useMemo(() => formValues || {}, [formValues]) as FormValues
-  const tokenAllowance = useMemo(
+  const { token, amount } = useMemo(() => formValues || {}, [
+    formValues
+  ]) as FormValues
+  const needsApproval = useMemo(
     () =>
-      token === 'ETH'
-        ? config.maxAllowance
-        : allowancesL1
-          ? allowancesL1[token]
-          : 0,
-    [token, allowancesL1]
+      layerSwitch(layer, requiresAllowance(allowancesL1, amount, token), false),
+    [layer, amount, token, allowancesL1]
   )
 
   // Connect wallet CTA
@@ -74,7 +69,7 @@ export const BridgeFundsWidgetCTA = ({
   }
 
   // Approve CTA
-  if (tokenAllowance === 0) {
+  if (needsApproval) {
     return (
       <Button
         fullWidth
@@ -99,7 +94,7 @@ export const BridgeFundsWidgetCTA = ({
       <Button
         fullWidth
         disabled={!isFormValid}
-        onClick={() =>
+        onClick={() => {
           dispatch(
             deposit({
               fromAddress: addressL1,
@@ -108,7 +103,8 @@ export const BridgeFundsWidgetCTA = ({
               token: formValues.token
             })
           )
-        }
+          // resetAmount()
+        }}
       >
         {'Deposit'}
       </Button>
@@ -117,45 +113,21 @@ export const BridgeFundsWidgetCTA = ({
 
   // Withdrawal CTA
   return (
-    <>
-      <Button
-        fullWidth
-        disabled={!isFormValid || Boolean(withdrawal?.transactions?.[Layers.L2]?.status)}
-        onClick={() =>
-          dispatch(
-            initiateWithdraw({
-              toAddress: formValues.toAddress,
-              amount: formValues.amount,
-              token: formValues.token
-            })
-          )
-        }
-      >
-        {'Initiate withdraw'}
-      </Button>
-      <ArrowWrapper>
-        <img src={arrowDown} alt='arrow down' />
-      </ArrowWrapper>
-      <Button
-        // disabled={withdrawal?.transactions?.[Layers.L2]?.status !== TransactionStatuses.COMPLETED && !withdrawal?.transactions?.[Layers.L1]?.status}
-        fullWidth
-        onClick={() =>
-          dispatch(
-            claimWithdraw({
-              toAddress: formValues.toAddress,
-              amount: formValues.amount,
-              token: formValues.token
-            })
-          )
-        }
-      >
-        {'Claim withdraw'}
-      </Button>
-    </>
+    <Button
+      fullWidth
+      disabled={!isFormValid}
+      onClick={() => {
+        dispatch(
+          initiateWithdraw({
+            toAddress: formValues.toAddress,
+            amount: formValues.amount,
+            token: formValues.token
+          })
+        )
+        resetAmount()
+      }}
+    >
+      {'Initiate withdraw'}
+    </Button>
   )
 }
-
-const ArrowWrapper = styled.div`
-  margin: 14px auto;
-  text-align: center;
-`

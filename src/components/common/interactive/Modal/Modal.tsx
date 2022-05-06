@@ -8,12 +8,12 @@ import { ReactComponent as ExitIcon } from '../../../../assets/icons/exit.svg'
 import { usePrevious } from '../../../../hooks/usePrevious'
 
 type Props = {
-    children: any;
-    onClose: any;
-    title: string;
-    limitHeight: boolean,
-    isVisible: boolean,
-    maxWidth?: number
+  children: any
+  onClose: any
+  title: string
+  limitHeight?: boolean
+  isVisible?: boolean
+  maxWidth?: number
 }
 
 export const Modal = ({
@@ -21,7 +21,7 @@ export const Modal = ({
   onClose,
   title,
   limitHeight = true,
-  isVisible,
+  isVisible = true,
   maxWidth
 }: Props) => {
   const prevIsVisible = usePrevious(isVisible)
@@ -53,17 +53,17 @@ export const Modal = ({
         <NeonWrapper $maxWidth={maxWidth}>
           <CoreCard title={title}>
             <CloseWrapper>
-              <ExitIcon onClick={onClose}/>
+              <ExitIcon onClick={onClose} />
             </CloseWrapper>
-            {
-              limitHeight
-                ? (
-                  <SimpleBar style={{ maxHeight: 554 }}>
-                    <div>{children}</div>
-                  </SimpleBar>
-                )
-                : (<div>{children}</div>)
-            }
+            {limitHeight
+              ? (
+                <SimpleBar style={{ maxHeight: 554 }}>
+                  <div>{children}</div>
+                </SimpleBar>
+              )
+              : (
+                <div>{children}</div>
+              )}
           </CoreCard>
         </NeonWrapper>
       </ModalWrapper>
@@ -174,7 +174,7 @@ const NeonWrapper = styled.div<NeonWrapperProps>`
   & > div {
     width: ${({ $maxWidth }) => `${$maxWidth}px` || '100%'};
     padding: 16px 0;
-    
+
     & > div {
       position: relative;
     }

@@ -1,3 +1,5 @@
+import Web3Modal from 'web3modal'
+
 import { Layers } from '../../utils/layer'
 
 export type WalletState = {
@@ -6,9 +8,10 @@ export type WalletState = {
 
 type Layer = {
   address: string;
-  web3Modal: any; // TODO: find the correct type
+  web3Modal?: Web3Modal;
   allowances: { [key: string]: number };
   balances: { [key: string]: Balance };
+  web3?: any
 };
 
 export type Balance = {
@@ -37,11 +40,12 @@ export type WithdrawPayload = {
   toAddress: string;
   token: string;
   amount: string;
+  transferId?: string;
 };
 
 export type DepositPayload = {
   fromAddress: string;
-} & WithdrawPayload;
+} & Omit<WithdrawPayload, 'transferId'>;
 
 export type FetchBalancesPayload = {
   address: string;

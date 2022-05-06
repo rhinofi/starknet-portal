@@ -35,7 +35,7 @@ const TopHeaderBackground = styled.div`
   position: fixed;
   height: 56px;
   width: 100%;
-  z-index: 1000;
+  z-index: 10000;
 `
 
 const TopHeaderContent = styled.div`

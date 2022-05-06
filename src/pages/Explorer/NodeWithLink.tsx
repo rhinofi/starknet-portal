@@ -4,15 +4,15 @@ import styled from 'styled-components'
 type Props = {
   children: ReactNode;
   angle: number;
-  dimensions: Dimensions
+  dimensions: Dimensions;
 };
 
 type Dimensions = {
-    coreSize: number
-    nodeSize: number
-    distanceFromCore: number
-    linkOffset: number
-    linkLength?: number
+  coreSize: number
+  nodeSize: number
+  distanceFromCore: number
+  linkOffset: number
+  linkLength?: number
 }
 
 export const NodeWithLink = ({ children, angle = 0, dimensions }: Props) => {

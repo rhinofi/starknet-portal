@@ -2,23 +2,25 @@ import { TransactionStatuses } from '../../enums/TransactionStatuses'
 import { Layers } from '../../utils/layer'
 
 export type BridgeState = {
-  deposit: DepositState;
-  withdrawal: WithdrawalState;
-};
+  transfers: Transfer[]
+}
 
-export type DepositState = {
+export type TransferWithoutId = {
+  type: 'deposit' | 'withdrawal'
   transactions?: {
-    [key in Layers]?: TransactionState;
-  };
-  amount?: string;
-  token?: string;
-};
-
-type TransactionState = {
-  hash: string;
-  status: TransactionStatuses;
-};
-
-export type WithdrawalState = DepositState & {
+    [key in Layers]?: Partial<TransactionState>
+  }
+  amount?: string
+  token?: string
   toAddress?: string
+  timestamp?: Date
+}
+
+export type Transfer = {
+  id: string
+} & TransferWithoutId
+
+export type TransactionState = {
+  hash: string
+  status: TransactionStatuses
 }

@@ -18,7 +18,7 @@ export const ConnectWalletL2Modal = ({ isVisible }: Props) => {
   return (
     <Modal
       title='Connect your wallet'
-      onClose={() => dispatch(toggleModal(MODALS.CONNECT_WALLET_L2))}
+      onClose={() => dispatch(toggleModal({ activeModal: MODALS.CONNECT_WALLET_L2 }))}
       limitHeight={false}
       isVisible={isVisible}
       maxWidth={600}

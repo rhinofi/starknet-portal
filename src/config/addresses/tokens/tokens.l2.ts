@@ -20,12 +20,12 @@ export const L2Tokens: TokenConfig[] = [
     bridgeAddress: {
       [ChainIds.MAIN]: '',
       [ChainIds.GOERLI]:
-        '0x30fab1f1cc35d6ab0a992240528e122bc46c196eebfed9d21a5f800f72f066d'
+        '0x073314940630fd6dcda0d772d4c972c4e0a9946bef9dabf4ef84eda8ef542b82'
     },
     tokenAddress: {
       [ChainIds.MAIN]: '',
       [ChainIds.GOERLI]:
-        '0x2dd93e385742984bf2fc887cd5d8b5ec6917d80af09cf7a00a63710ad51ba53'
+        '0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7'
     }
   },
   {

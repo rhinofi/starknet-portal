@@ -4,11 +4,6 @@ import styled from 'styled-components'
 
 import blueCircle from '../../assets/backgrounds/blue-circle.svg'
 import ellipse from '../../assets/backgrounds/ellipse.svg'
-import ethereum from '../../assets/tokens/ethereum.svg'
-import frax from '../../assets/tokens/frax.svg'
-import starknet from '../../assets/tokens/starknet.svg'
-import usdt from '../../assets/tokens/usdt.svg'
-import wbtc from '../../assets/tokens/wbtc.svg'
 import { Planet } from './Planet'
 
 type ExplorerData = {
@@ -20,39 +15,57 @@ export type HubData = ProjectData[]
 export type ProjectData = {
     name: string
     icon: string
+    url: string
+    description: string
 }
 
 const data: ExplorerData = {
   wallets: [
     [
-      { name: 'Metamask', icon: ethereum },
-      { name: 'Argent', icon: starknet }
+      {
+        name: 'Metamask',
+        icon: 'https://duckduckgo.com/i/b08b6e4c.png',
+        url: 'https://metamask.io/',
+        description: 'MetaMask is a software cryptocurrency wallet used to interact with the Ethereum blockchain. It allows users to access their Ethereum wallet through a browser extension or mobile app'
+      },
+      {
+        name: 'Argent',
+        icon: 'https://images.prismic.io/argentwebsite/313db37e-055d-42ee-9476-a92bda64e61d_logo.svg?auto=format%2Ccompress&fit=max&q=50',
+        url: 'https://metamask.xyz/',
+        description: 'Argent - The best Ethereum wallet for DeFi and NFTs. The best of Ethereum. A fraction of the cost. Buy, earn, stake and trade on Ethereum Layer 2 with low fees & bulletproof security. Own it Earn 5% by staking ETH Earn up to 15% on USDC and DAI Buy with card or bank transfer Trade tokens in a tap Low fees, high speeds'
+      }
     ]
   ],
   exchanges: [
     [
-      { name: 'Metamask', icon: wbtc },
-      { name: 'Argent', icon: usdt },
-      { name: 'Argent', icon: frax }
+      {
+        name: 'Metamask',
+        icon: 'https://duckduckgo.com/i/b08b6e4c.png',
+        url: 'https://metamask.io/',
+        description: 'MetaMask is a software cryptocurrency wallet used to interact with the Ethereum blockchain. It allows users to access their Ethereum wallet through a browser extension or mobile app'
+      },
+      {
+        name: 'Metamask',
+        icon: 'https://duckduckgo.com/i/b08b6e4c.png',
+        url: 'https://metamask.io/',
+        description: 'MetaMask is a software cryptocurrency wallet used to interact with the Ethereum blockchain. It allows users to access their Ethereum wallet through a browser extension or mobile app'
+      },
+      {
+        name: 'Metamask',
+        icon: 'https://duckduckgo.com/i/b08b6e4c.png',
+        url: 'https://metamask.io/',
+        description: 'MetaMask is a software cryptocurrency wallet used to interact with the Ethereum blockchain. It allows users to access their Ethereum wallet through a browser extension or mobile app'
+      }
     ]
   ],
   tools: [
     [
-      { name: 'Metamask', icon: usdt }
-    ]
-  ],
-  test: [
-    [
-      { name: 'Metamask', icon: ethereum },
-      { name: 'Metamask', icon: wbtc },
-      { name: 'Argent', icon: usdt },
-      { name: 'Argent', icon: frax }
-    ]
-  ],
-  test2: [
-    [
-      { name: 'Metamask', icon: ethereum },
-      { name: 'Argent', icon: starknet }
+      {
+        name: 'Metamask',
+        icon: 'https://duckduckgo.com/i/b08b6e4c.png',
+        url: 'https://metamask.io/',
+        description: 'MetaMask is a software cryptocurrency wallet used to interact with the Ethereum blockchain. It allows users to access their Ethereum wallet through a browser extension or mobile app'
+      }
     ]
   ]
 }
@@ -101,6 +114,7 @@ const Container = styled.div`
   height: ${coreSize}px;
   width: ${coreSize}px;
   position: relative;
+  margin-top: 200px;
   //border: 1px solid yellow;
 `
 

@@ -1,10 +1,11 @@
 {
-  sources ? import ./sources.nix,
+  sources ? import ../nix/sources.nix,
   config ? {},
   system ? builtins.currentSystem,
   overlays ? []
 }:
 let
+  nixpgks = import ./../../nix/pkgs.nix;
   allOverlays =
     # These overlays augment centrally defined packages with things specific
     # to this service.
@@ -22,4 +23,4 @@ let
   pkgsBasePath = sources.launch-deversifi;
   pkgsPath = pkgsBasePath + "/nix/pkgs-with-default-ci.nix";
 in
-  import pkgsPath { inherit config system; overlays = allOverlays; }
+  nixpgks { inherit config system; overlays = allOverlays; }

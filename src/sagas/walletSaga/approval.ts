@@ -10,8 +10,6 @@ import { l1_getContract, l2_getContract } from '../../utils/contract'
 import { Layers, layerSwitch } from '../../utils/layer'
 import { getTokenDetails } from '../../utils/tokens'
 
-export const chainId = 5 // TODO: refactor chain id to store
-
 export function * handleFetchAllowance (action: PayloadAction<FetchAllowancePayload>) {
   const { token, address } = action?.payload
 
@@ -27,13 +25,13 @@ export function * handleFetchAllowance (action: PayloadAction<FetchAllowancePayl
       const tokenDetails = getTokenDetails(Layers.L1, token)
       if (tokenDetails && tokenDetails.tokenAddress) {
         const contract = l1_getContract(
-          tokenDetails.tokenAddress[chainId],
+          tokenDetails.tokenAddress[config.chainId],
           ABIS.L1_ERC20
         )
 
         const allowanceRes = yield allowance({
           owner: address,
-          spender: tokenDetails.bridgeAddress[chainId],
+          spender: tokenDetails.bridgeAddress[config.chainId],
           decimals: tokenDetails.decimals,
           contract
         })
@@ -57,12 +55,12 @@ export function * handleApproveToken (action: PayloadAction<ApproveTokenPayload>
   const tokenDetails = getTokenDetails(layer, token)
   if (tokenDetails && tokenDetails.tokenAddress) {
     const contract = layerSwitch(layer, l1_getContract, l2_getContract)(
-      tokenDetails.tokenAddress[chainId],
+      tokenDetails.tokenAddress[config.chainId],
       layerSwitch(layer, ABIS.L1_ERC20, ABIS.L2_ERC20)
     )
 
     yield approve({
-      spender: tokenDetails.bridgeAddress[chainId],
+      spender: tokenDetails.bridgeAddress[config.chainId],
       value: config.maxAllowance.toString(16),
       contract,
       options: {

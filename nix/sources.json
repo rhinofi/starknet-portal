@@ -1,14 +1,14 @@
 {
-    "launch-deversifi": {
-        "branch": "dev",
-        "description": "Instructions to deploy the required services for DeversiFi Exchange",
-        "homepage": "",
+    "starkware-crypto-cpp-node": {
+        "branch": "master",
+        "description": "nodejs bindings for selected functions from starkware-crypto-cpp libraries ",
+        "homepage": null,
         "owner": "deversifi",
-        "repo": "launch-deversifi",
-        "rev": "69cb7804a82083de25366686b675ed1ad42ae4f6",
-        "sha256": "171ckb53ssijxpwnj21m924hzmjs6rfcf3vsagjv66nbx85vvxwr",
+        "repo": "starkware-crypto-cpp-node",
+        "rev": "02a7995e2c6079cd5bc202957496aa5ab5ab4a29",
+        "sha256": "0ggmvc4l5cpm8d1g5wjprg3bbzyxs5qaa7xc8qp014snw8x5wvfs",
         "type": "tarball",
-        "url": "https://github.com/deversifi/launch-deversifi/archive/69cb7804a82083de25366686b675ed1ad42ae4f6.tar.gz",
+        "url": "https://github.com/deversifi/starkware-crypto-cpp-node/archive/02a7995e2c6079cd5bc202957496aa5ab5ab4a29.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     }
 }

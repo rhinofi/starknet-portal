@@ -6,3 +6,18 @@ export const getTokenDetails = (layer: Layers, token: string) =>
   layerSwitch(layer, L1TokensConfig, L2TokensConfig).filter(
     (item: any) => item.symbol === token
   )[0]
+
+export const requiresAllowance = (
+  allowances: { [key: string]: number },
+  amount: string,
+  token: string
+) => {
+  if (!token) return false
+
+  if (token === 'ETH') {
+    return false
+  }
+  const tokenDetails = getTokenDetails(Layers.L1, token)
+  const tokenAllowance = (allowances?.[token] || 0) * (10 ** tokenDetails.decimals / 10 ** 18)
+  return Number(amount) > tokenAllowance
+}

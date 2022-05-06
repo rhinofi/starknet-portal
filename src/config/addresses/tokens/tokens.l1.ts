@@ -19,7 +19,7 @@ export const L1Tokens: TokenConfig[] = [
     decimals: 18,
     bridgeAddress: {
       [ChainIds.MAIN]: '',
-      [ChainIds.GOERLI]: '0xcf98f0A8edC6a730E1CA6B64a2528c6bE031Cb12'
+      [ChainIds.GOERLI]: '0xc3511006C04EF1d78af4C8E0e74Ec18A6E64Ff9e'
     }
   },
   {

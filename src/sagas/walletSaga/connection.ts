@@ -29,13 +29,20 @@ export function * handleConnectWalletL1 () {
   const web3 = new Web3(provider)
   const accounts = yield web3.eth.getAccounts()
 
+  const selectedNetwork = yield web3.eth.net.getId()
+  if (selectedNetwork !== config.chainId) {
+    yield put(toggleModal({ activeModal: MODALS.WRONG_NETWORK, modalData: { layer: Layers.L1 } }))
+  } else {
+    yield put(toggleModal({ activeModal: MODALS.CONNECT_WALLET_L1 }))
+  }
+
   yield put(
     setL1({
       web3Modal,
-      address: accounts[0]
+      address: accounts[0],
+      web3
     })
   )
-  yield put(toggleModal(MODALS.CONNECT_WALLET_L1))
   yield put(updateNotification({
     id: NOTIFICATIONS.CONNECT_WALLET_L1,
     title: 'L1 Wallet connected',
@@ -64,7 +71,7 @@ export function * handleConnectWalletL2 (): Generator<any, void, string[]> {
   const [userWalletContractAddress] = yield starknet.enable({ showModal: true }) // may throws when no extension is detected
   if (starknet.isConnected) {
     yield put(setAddressL2(userWalletContractAddress))
-    yield put(toggleModal(MODALS.CONNECT_WALLET_L2))
+    yield put(toggleModal({ activeModal: MODALS.CONNECT_WALLET_L2 }))
     yield put(updateNotification({
       id: NOTIFICATIONS.CONNECT_WALLET_L2,
       title: 'L2 Wallet connected',

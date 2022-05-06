@@ -39,7 +39,8 @@ const HeaderContent = styled.div`
   padding-top: 20px;
   box-sizing: border-box;
   width: 188px;
-
+  z-index: 9999;
+  
   & > div {
     height: 100%;
     display: flex;

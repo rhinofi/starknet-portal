@@ -2,15 +2,6 @@ let
   pkgs = import ./nix/pkgs.nix {};
 in
   pkgs.mkShell {
-    inputsFrom = [
-      # Inherit everything from dev-shell-with-node
-      pkgs.dev-shell-with-node
-    ];
-    # Add project specific deps
-    buildInputs = with pkgs; [
-      libusb
-    ] ++ (pkgs.lib.optional (!pkgs.stdenv.isDarwin) udev);
-    # This is needed to build node-hid
     shellHook = ''
       # Export GITHUB_PACKAGE_REGISTRY_ACCESS_TOKEN when running nix-shell
       # Used to access private npm packages hosted on github.
@@ -18,7 +9,15 @@ in
       # in a sandbox without internet access, hence we need to source in
       # .envrc as well
       source ${pkgs.export-GITHUB_PACKAGE_REGISTRY_ACCESS_TOKEN-dev.defaultBinPath}
-      source ${pkgs.export-GITHUB_TOKEN-dev.defaultBinPath}
-      export CFLAGS=' -isystem ${pkgs.libusb.dev}/include/libusb-1.0';
     '';
+    inputsFrom = [pkgs.dev-shell-with-node];
+    buildInputs = with pkgs; [
+    ]
+    # Used in tests. Not including in darwin as it would have to be
+    # built from source since we don't have it in binary cache.
+    # TODO: build it in a macos builder on github actions.
+    # TODO: pressure nixpkgs maintainers to enable builds for it. The reason
+    # is not built by nixos build farm is due to it's ambiguous licence.
+    ++ (pkgs.lib.optional (!pkgs.stdenv.isDarwin) mongodb)
+    ;
   }

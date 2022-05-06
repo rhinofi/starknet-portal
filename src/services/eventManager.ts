@@ -7,10 +7,10 @@ import { events } from '../constants/events'
 import { NOTIFICATIONS } from '../constants/notifications'
 import { transactionHashPrefix } from '../constants/transactionHashPrefix'
 import { TransactionStatuses } from '../enums/TransactionStatuses'
-import { updateDeposit, updateWithdrawal } from '../redux/slices/bridgeSlice'
+import { updateTransfer } from '../redux/slices/bridgeSlice'
 import { NotificationStatuses } from '../redux/slices/notifications.types'
 import { addNotification, updateNotification } from '../redux/slices/notificationsSlice'
-import { AppDispatch } from '../store'
+import { AppDispatch, store } from '../store'
 import { ABIS } from '../utils/abis'
 import { l1_getContract } from '../utils/contract'
 import { getTransactionHash, listenContractEvent, waitForTransaction } from '../utils/events'
@@ -26,6 +26,11 @@ export const listenToLogMessageToL2Event = (dispatch: AppDispatch) => {
 
   const handleEmittedEvent = (error: Error, event: EventData) => {
     console.log('LogMessageToL2 event received', event, error)
+
+    if (error) {
+      console.error(error)
+      return
+    }
 
     // Update L1 notification
     dispatch(updateNotification({
@@ -46,18 +51,27 @@ export const listenToLogMessageToL2Event = (dispatch: AppDispatch) => {
     )
     console.log('L2 transaction hash', txHashL2)
 
-    // Update the deposit transactions
-    dispatch(updateDeposit({
-      transactions: {
-        [Layers.L1]: {
-          status: TransactionStatuses.COMPLETED
-        },
-        [Layers.L2]: {
-          hash: txHashL2,
-          status: TransactionStatuses.PENDING
+    const transfer = store.getState().bridge.transfers.filter(transfer => transfer?.transactions?.[Layers.L1]?.hash === event.transactionHash)?.[0]
+    console.log(transfer)
+
+    if (transfer) {
+      // Update the deposit transactions
+      dispatch(updateTransfer({
+        id: transfer?.id,
+        transfer: {
+          transactions: {
+            [Layers.L1]: {
+              status: TransactionStatuses.COMPLETED,
+              hash: transfer.transactions?.[Layers.L1]?.hash
+            },
+            [Layers.L2]: {
+              hash: txHashL2,
+              status: TransactionStatuses.PENDING
+            }
+          }
         }
-      }
-    }))
+      }))
+    }
 
     // Add a notification for L2
     dispatch(addNotification({
@@ -75,10 +89,13 @@ export const listenToLogMessageToL2Event = (dispatch: AppDispatch) => {
       console.log('L2 transaction completed')
 
       // Update deposit L2 transaction
-      dispatch(updateDeposit({
-        transactions: {
-          [Layers.L2]: {
-            status: TransactionStatuses.COMPLETED
+      dispatch(updateTransfer({
+        id: transfer.id,
+        transfer: {
+          transactions: {
+            [Layers.L2]: {
+              status: TransactionStatuses.COMPLETED
+            }
           }
         }
       }))
@@ -105,14 +122,19 @@ export const listenToLogWithdrawalEvent = (dispatch: AppDispatch) => {
   const handleEmittedEvent = (error: Error, event: EventData) => {
     console.log('LogWithdrawal event received', event, error)
 
+    if (error) {
+      console.error(error)
+      return
+    }
+
     // Update withdrawal L1 transaction
-    dispatch(updateWithdrawal({
-      transactions: {
-        [Layers.L1]: {
-          status: TransactionStatuses.COMPLETED
-        }
-      }
-    }))
+    // dispatch(updateWithdrawal({
+    //   transactions: {
+    //     [Layers.L1]: {
+    //       status: TransactionStatuses.COMPLETED
+    //     }
+    //   }
+    // }))
 
     // Update L1 notification
     dispatch(updateNotification({

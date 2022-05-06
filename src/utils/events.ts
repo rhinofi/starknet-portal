@@ -1,4 +1,5 @@
-import { defaultProvider, hash, number } from 'starknet'
+import { getStarknet } from '@argent/get-starknet/dist'
+import { hash, number } from 'starknet'
 import { Contract as L1Contract, EventData } from 'web3-eth-contract'
 
 import { config } from '../config/config'
@@ -39,7 +40,7 @@ export const waitForTransaction = async (transactionHash: string, requiredStatus
     let processing = false
     const intervalId = setInterval(async () => {
       if (processing) return
-      const statusPromise = defaultProvider.getTransactionStatus(transactionHash)
+      const statusPromise = getStarknet().provider.getTransactionStatus(transactionHash)
       processing = true
       try {
         const { tx_status } = await statusPromise
