@@ -1,13 +1,17 @@
-import React, {FunctionComponent, useState} from 'react'
+import { FunctionComponent, useState } from 'react'
 import styled from 'styled-components'
 
-import {ReactComponent as CopyIcon} from '../../../assets/icons/copy.svg'
+import { ReactComponent as CopyIcon } from '../../../assets/icons/copy.svg'
+import { Text } from '../presentation/Text'
 
 interface CopyProps {
   text: string
+  successPosition?: SuccessPosition
 }
 
-const Copy:FunctionComponent<CopyProps> = ({ text }) => {
+type SuccessPosition = 'right' | 'bottom'
+
+const Copy: FunctionComponent<CopyProps> = ({ text, successPosition }) => {
   const [showSuccess, setShowSuccess] = useState(false)
 
   const copyToClipboard = () => {
@@ -34,7 +38,11 @@ const Copy:FunctionComponent<CopyProps> = ({ text }) => {
   return (
     <CopyWrapper onClick={copyToClipboard} $active={showSuccess}>
       <CopyIcon />
-      {showSuccess && <FloatingMessage>Copied!</FloatingMessage>}
+      {showSuccess && (
+        <FloatingMessage position={successPosition} size='small'>
+          Copied!
+        </FloatingMessage>
+      )}
     </CopyWrapper>
   )
 }
@@ -50,15 +58,15 @@ const CopyWrapper = styled.div<CopyWrapperProps>`
   display: inline-block;
   cursor: pointer;
   height: 16px;
-  
+
   svg {
     transition: opacity 0.1s linear;
   }
-  
+
   path {
     fill: ${({ theme, $active }) => $active && theme.secondary500};
   }
-  
+
   &:active {
     path {
       fill: ${props => props.theme.secondary500};
@@ -72,9 +80,10 @@ const CopyWrapper = styled.div<CopyWrapperProps>`
   }
 `
 
-const FloatingMessage = styled.div`
+const FloatingMessage = styled(Text)<{ position?: SuccessPosition }>`
   position: absolute;
-  top: 0;
-  left: calc(100% + 8px);
+  top: ${({ position }) => (position === 'bottom' ? '25px' : 0)};
+  left: ${({ position }) =>
+    position === 'bottom' ? '-10px' : 'calc(100% + 8px)'};
   color: ${({ theme }) => theme.secondary500};
 `
